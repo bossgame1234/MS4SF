@@ -10,12 +10,17 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::resource(
+    'farm',
+    'farmController',
+    ['only' => ['store','index','show','edit']]
+);
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
-
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+Route::get(
+    '/',
+    function() {
+        return view('index');
+    }
+);
+//route to add
+Route::get('ms4sf','ms4sfAppController@index');
