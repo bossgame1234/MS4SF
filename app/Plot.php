@@ -10,5 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 class Plot extends Model
 {
     protected $table= 'plot';
-    protected $fillable =['name', 'latitude', 'longitude', 'address', 'description'];
+    protected $fillable =['name','description','DOB','farm_id'];
+    public function plant(){
+        return $this->hasMany('App\Plant');
+    }
+    public function farm(){
+        return $this->belongsTo('App\farm');
+    }
+
 }

@@ -15,11 +15,12 @@ class CreateFarmTable extends Migration {
 		Schema::create('farm', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('name', 20);
-			$table->float('latitude', 6);
-			$table->float('longitude', 6);
+			$table->float('latitude', 9,6);
+			$table->float('longitude',9,6);
 			$table->text('address');
 			$table->text('description');
 			$table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

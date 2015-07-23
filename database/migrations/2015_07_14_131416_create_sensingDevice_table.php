@@ -14,13 +14,9 @@ class CreateSensingDeviceTable extends Migration {
 	{
 		Schema::create('sensingDevice', function (Blueprint $table) {
 			$table->increments('id');
-			$table->integer('device_id');
+			$table->string('device_id',10);
 			$table->integer('plot_id')->unsigned();
 			$table->timestamps();
-			$table->foreign('plot_id')
-				->references('id')
-				->on('plot')
-				->onDelete('cascade');
 		});//
 	}
 

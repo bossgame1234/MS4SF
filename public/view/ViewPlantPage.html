@@ -1,0 +1,45 @@
+<!-- **********************************************************************************************************************************************************
+    MAIN CONTENT
+    *********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Plant List</h3>
+        <div class="alert alert-success alert-dismissible" role="alert" ng-show="addSuccess">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> Success adding a new plant
+        </div>
+        <div class="alert alert-success alert-dismissible" role="alert" ng-show="editSuccess">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> Success edit the plant
+        </div>
+        <div class="alert alert-success alert-dismissible" role="alert" ng-show="deleteSuccess">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> Success delete the plant
+        </div>
+        <!-- Table -->
+        <table class="table table-hover">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Date of birth</th>
+                <th>Harvest day</th>
+                <th >Edit</th>
+                <th >Delete</th>
+            </tr>
+            <tr ng-repeat="plant in plants">
+                <td>{{$index+1}}</td>
+                <td>{{plant.name}}</td>
+                <td>{{plant.type}}</td>
+                <td>{{plant.DOB}}</td>
+                <td>{{plant.harvestDay}}</td>
+                <td class="text-center"><a ng-href="#/editPlant/{{plant.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                <td class="text-center"><a ng-href="#/deletePlant"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deletePlant(plant.id)"></span></a></td>
+            </tr>
+        </table>
+    </section>
+</section>

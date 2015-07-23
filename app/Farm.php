@@ -10,6 +10,5 @@ class Farm extends Model {
     protected $dates = ['deleted_at'];
     public function plot(){
         return $this->hasMany('App\Plot');
-    }//
-
+    }
 }

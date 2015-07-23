@@ -1,0 +1,43 @@
+<!-- **********************************************************************************************************************************************************
+    MAIN CONTENT
+    *********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Plot List</h3>
+        <div class="alert alert-success alert-dismissible" role="alert" ng-show="addSuccess">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> Success adding a new product
+        </div>
+        <div class="alert alert-success alert-dismissible" role="alert" ng-show="editSuccess">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> Success edit the product
+        </div>
+        <div class="alert alert-success alert-dismissible" role="alert" ng-show="deleteSuccess">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> Success delete the product
+        </div>
+        <!-- Table -->
+        <table class="table table-hover">
+            <tr>
+                <th>#</th>
+                <th >Name</th>
+                <th >Description</th>
+                <th >Date of create</th>
+                <th >Edit</th>
+                <th >Delete</th>
+            </tr>
+            <tr ng-repeat="plot in plots">
+                <td>{{$index+1}}</td>
+                <td><a ng-href="#/viewPlot/{{plot.id}}">{{plot.name}}</a></td>
+                <td>{{plot.description}}</td>
+                <td>{{plot.DOB}}</td>
+                <td class="text-center"><a ng-href="#/editPlot/{{plot.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                <td class="text-center"><a ng-href="#/deletePlot"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deletePlot(plot.id)"></span></a></td>
+            </tr>
+        </table>
+    </section>
+</section>

@@ -1,0 +1,48 @@
+<!-- **********************************************************************************************************************************************************
+    MAIN CONTENT
+    *********************************************************************************************************************************************************** -->
+<section id="main-content">
+    <section class="wrapper">
+        <h3 ng-show="addPlot"><i class="fa fa-angle-right"></i> Add Plot</h3>
+        <h3 ng-show="editPlot"><i class="fa fa-angle-right"></i> Edit Plot</h3>
+        <!-- BASIC FORM ELELEMNTS -->
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <h4 class="mb"><i class="fa fa-angle-right"></i> Plot Information</h4>
+                    <form class="form-horizontal style-form" name="editplot" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Name*</label>
+                            <div class="col-sm-10">
+                                <input ng-model="plot.name" type="text" id="plotName" name="plotName" class="form-control" required>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-10 alert alert-danger" role="alert" ng-show="editplot.plotName.$error.required">
+                                <b>Error:</b> Plot name is Required!
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea  ng-model="plot.description" rows="2" cols="50" type="textarea" id="plotDescription" name="plotDescription" class="form-control" ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Plot Create</label>
+                            <div class="col-sm-10">
+                                <input  ng-model="plot.DOB" type="date" id="plotDOB" name="plotDOB" class="form-control" >
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-click="addPlot()" ng-show="addPlot" ng-disabled="editplot.plotName.$error.required">Add New Plot</button>
+                        <button type="submit" class="btn btn-default" ng-click="editPlot()" ng-show="editPlot" ng-disabled="editplot.plotName.$error.required">Update Plot</button>
+                    </form>
+                </div>
+            </div><!-- col-lg-12-->
+        </div><!-- /row -->
+    </section>
+
+
+</section><!-- /MAIN CONTENT -->
