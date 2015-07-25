@@ -8,7 +8,7 @@
                 <p><h4>Max : {{light.lightMax|number:2}} lux.</h4>
                 <p><h4>Average : {{light.lightAverage|number:2}} lux.</h4>
                 <p><h4>Min : {{light.lightMin|number:2}} lux.</h4>
-                <p><h4>10 Minute ago : {{current[0].luxValue|number:2}} lux.</h4>
+                <p><h4 ng-show="daily">10 Minute ago : {{current[0].luxValue|number:2}} lux.</h4>
                 <button type="submit" class="btn btn-default" ng-click="showLight()">Show Light graph</button>
             </div>
             <div class="col-lg-3">
@@ -16,7 +16,7 @@
                 <p><h4>Max : {{temperature.tempMax|number:2}} celsius.</h4>
                 <p><h4>Average : {{temperature.tempAverage|number:2}} celsius.</h4>
                 <p><h4>Min : {{temperature.tempMin|number:2}} celsius.</h4>
-                <p><h4>10 Minute ago : {{current[1].celsiusValue|number:2}} celsius</h4>
+                <p><h4 ng-show="daily">10 Minute ago : {{current[1].celsiusValue|number:2}} celsius</h4>
                 <button type="submit" class="btn btn-default" ng-click="showTemperature()">Show Temperature graph</button>
             </div>
             <div class="col-lg-3">
@@ -24,7 +24,7 @@
                 <p><h4>Max : {{humidity.humidityMax|number:2}} %</h4>
                 <p><h4>Average : {{humidity.humidityAverage|number:2}} %</h4>
                 <p><h4>Min : {{humidity.humidityMin|number:2}} %</h4>
-                <p><h4>10 Minute ago : {{current[2].humidityPercentage|number:2}} %</h4>
+                <p><h4 ng-show="daily">10 Minute ago : {{current[2].humidityPercentage|number:2}} %</h4>
                 <button type="submit" class="btn btn-default" ng-click="showHumidity()">Show Air humidity graph</button>
             </div>
             <div class="col-lg-3">
@@ -32,7 +32,7 @@
                 <p><h4>Max : {{soilMoisture.soilMax|number:2}}</h4>
                 <p><h4>Min : {{soilMoisture.soilMin|number:2}}</h4>
                 <p><h4>Average : {{soilMoisture.soilAverage|number:2}}</h4>
-                <p><h4>10 Minute ago : {{current[3].soilValue|number:2}}</h4>
+                <p><h4 ng-show="daily">10 Minute ago : {{current[3].soilValue|number:2}}</h4>
                 <button type="submit" class="btn btn-default" ng-click="showSoilMoisture()">Show Soil moisture graph</button>
             </div>
         </div>

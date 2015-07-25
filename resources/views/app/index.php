@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <meta http-equiv="refresh" content="3600">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <head>
     <title>Monitoring For Smart Farm</title>
     <!--Angular Library -->
@@ -40,10 +41,10 @@
     <!--header start-->
     <header class="header black-bg">
         <div class="sidebar-toggle-box">
-            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+            <div class="fa fa-bars tooltips" data-placement="right"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>Monitoring For Smart Farm</b></a>
+        <a href="index.html" class="logo"><b>MS4SF</b></a>
         <div class="nav notify-row" id="top_menu">
         </div>
    </header>

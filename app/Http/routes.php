@@ -101,15 +101,15 @@ Route::get('sensingResister/{device_id}/{temperature}/{soilmoisture}/{light}/{hu
             $lightDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgLight');
             $lightDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxLight');
 
-            $temperatureDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisture');
+            $temperatureDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minTemperature');
             $temperatureDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgTemperature');
-            $temperatureDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxSoilMoisture');
+            $temperatureDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxTemperature');
 
             $humidityDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minAirHumidity');
             $humidityDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgAirHumidity');
             $humidityDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxAirHumidity');
 
-            $soilMoistureDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisturee');
+            $soilMoistureDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisture');
             $soilMoistureDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgSoilMoisture');
             $soilMoistureDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxSoilMoisture');
 
@@ -138,15 +138,15 @@ Route::get('sensingResister/{device_id}/{temperature}/{soilmoisture}/{light}/{hu
                 $lightWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgLight');
                 $lightWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxLight');
 
-                $temperatureWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisture');
+                $temperatureWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minTemperature');
                 $temperatureWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgTemperature');
-                $temperatureWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxSoilMoisture');
+                $temperatureWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxTemperature');
 
                 $humidityWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minAirHumidity');
                 $humidityWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgAirHumidity');
                 $humidityWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxAirHumidity');
 
-                $soilMoistureWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisturee');
+                $soilMoistureWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisture');
                 $soilMoistureWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgSoilMoisture');
                 $soilMoistureWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxSoilMoisture');
 

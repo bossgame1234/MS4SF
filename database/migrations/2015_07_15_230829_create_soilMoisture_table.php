@@ -14,7 +14,7 @@ class CreateSoilMoistureTable extends Migration
     {
         Schema::create('soilMoisture', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('soilValue', 5);
+            $table->float('soilValue', 6,2);
             $table->string('soilState',10);
             $table->integer('sensor_id')->unsigned();
             $table->timestamps();
