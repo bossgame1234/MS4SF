@@ -1,0 +1,30 @@
+<section id="main-content">
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Sensing device ID list</h3>
+        <!-- Table -->
+        <div class="row" ng-show="SelectedPlot">
+        <form name="generateCodeForm" >
+            <div class="col-sm-2"><h4>Device ID </h4> </div>
+            <div class="col-sm-4"><input ng-model="deviceP.device_id" type="text" id="deviceId" name="deviceId" maxlength="10" class="form-control" ></div>
+            <div class="col-sm-1"><button type="submit" class="btn btn-default"  ng-click="addDevice()">Submit</button></div>
+        </form>
+    </div>
+        <table class="table table-hover">
+            <tr>
+                <th>#</th>
+                <th>Device Id</th>
+                <th>Registered at</th>
+                <th>Delete</th>
+                <th>Select</th>
+            </tr>
+            <tr ng-repeat="device in devices">
+                <td>{{$index+1}}</td>
+                <td><a href="#/viewDailySummary/{{device.id}}">{{device.device_id}}</a></td>
+                <td>{{device.updated_at}}</td>
+                <td><a href="#/sensingDeviceList"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deleteDevice(device.id)"></span></a></td>
+                <td><a href="#/sensingDeviceList"><span class="glyphicon glyphicon-pushpin" aria-hidden="true" ng-click="selectDevice(device.id,device.device_id)" /></span></a></td>
+                </td>
+            </tr>
+        </table>
+    </section>
+</section>

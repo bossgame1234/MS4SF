@@ -68,6 +68,9 @@ class plantController extends Controller
      */
     public function destroy($id)
     {
+        if($id==null){
+            return null;
+        }
         Plant::find($id)->delete();
         return $id;
     }

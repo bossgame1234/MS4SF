@@ -1,7 +1,7 @@
 <?php
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
-
+    protected $baseUrl = 'http://localhost:8000';
 	/**
 	 * Creates the application.
 	 *
@@ -15,5 +15,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		return $app;
 	}
+    public function testCheck()
+    {
+        $this->assertTrue(true);
+    }
 
 }

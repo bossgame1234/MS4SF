@@ -4,39 +4,34 @@
 <!--main content start-->
 <section id="main-content">
     <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Farm List</h3>
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="addSuccess">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button>
-    <strong>Success!</strong> Success adding a new farm
-</div>
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="editSuccess">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button>
-    <strong>Success!</strong> Success edit the farm
-</div>
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="deleteSuccess">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button>
-    <strong>Success!</strong> Success delete the farm
-</div>
+        <div class="row">
+            <div class="col-sm-3">
+        <h3><i class="fa fa-angle-right"></i> Farm List</h3></div>
+            <div class="col-sm-7"></div>
+            <div class="col-sm-2">
+        <a href="#/addFarm"> <br><button class="btn btn-default btn-primary" >Add farm</button></a>
+                </div>
+        </div>
 <!-- Table -->
     <table class="table table-hover">
         <tr>
             <th>#</th>
-            <th >Name</th>
-            <th >Description</th>
-            <th >Address</th>
-            <th >Edit</th>
-            <th >Delete</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Select</th>
         </tr>
         <tr ng-repeat="farm in farms">
             <td>{{$index+1}}</td>
             <td><a ng-href="#/viewFarm/{{farm.id}}">{{farm.name}}</a></td>
             <td>{{farm.description}}</td>
             <td>{{farm.address}}</td>
-            <td class="text-center"><a ng-href="#/editFarm/{{farm.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
-            <td class="text-center"><a ng-href="#/deleteFarm"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deleteFarm(farm.id)"></span></a></td>
+            <td><a ng-href="#/editFarm/{{farm.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+            <td><a href="#/showFarmList"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deleteFarm(farm.id)"></span></a></td>
+            <td><a ng-href="#/showFarmList"><span class="glyphicon glyphicon-pushpin" aria-hidden="true" ng-click="selectFarm(farm.id,farm.name)" /></a></span>
+            </td>
         </tr>
     </table>
         </section>

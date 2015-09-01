@@ -1,7 +1,7 @@
 <section id="main-content">
     <section class="wrapper site-min-height">
-        <h3 ng-show="daily"><i class="fa fa-angle-right"></i> Sensing Device Daily Summary </h3>
-        <h3 ng-show="weekly"><i class="fa fa-angle-right"></i> Sensing Device Weekly Summary </h3>
+        <h3 ng-show="daily"><i class="fa fa-angle-right"></i> Sensing Device Daily Summary <a href="#/viewWeeklySummary/{{DeviceId}}"><button class="btn btn-default btn-primary">Weekly</button></a></h3>
+        <h3 ng-show="weekly"><i class="fa fa-angle-right"></i> Sensing Device Weekly Summary <a href="#/viewDailySummary/{{DeviceId}}"><button class="btn btn-default btn-primary">Daily</button></a></h3>
         <div class="row mt">
             <div class="col-lg-3">
                 <p><h2>Light </h2>
@@ -33,10 +33,11 @@
                 <p><h4>Min : {{soilMoisture.soilMin|number:2}}</h4>
                 <p><h4>Average : {{soilMoisture.soilAverage|number:2}}</h4>
                 <p><h4 ng-show="daily">10 Minute ago : {{current[3].soilValue|number:2}}</h4>
+
                 <button type="submit" class="btn btn-default" ng-click="showSoilMoisture()">Show Soil moisture graph</button>
             </div>
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12" ng-show="lightGraph||humidityGraph||temperatureGraph||soilMoistureGraph">
             <div google-chart chart="chart" style="{{cssStyle}}"></div>
             <!-- explicit close of tag seems to be necessary -->
         </div>

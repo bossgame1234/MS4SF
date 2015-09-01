@@ -1,6 +1,6 @@
 <section id="main-content">
     <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> {{plot.name}}</h3>
+        <h3><i class="fa fa-angle-right"></i> {{plot.name}}</h3><a href="#/viewPlotList"><button class="btn btn-default btn-primary">Back</button></a>
         <div class="showback">
         <div class="row data">
             <div class="col-sm-6 col-xs-6 goleft">
@@ -25,19 +25,12 @@
                         <tr>
                             <th>#</th>
                             <th >SensingDevice id</th>
-                            <th >Delete</th>
                         </tr>
                         <tr ng-repeat="device in devices">
                             <td>{{$index+1}}</td>
-                            <td><a ng-href="#/viewDevice/{{device.id}}">{{device.device_id}}</a></td>
-                            <td class="text-center"><a><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deleteDevice(device.id)"></span></a></td>
+                            <td><a ng-href="#/viewDailySummary/{{device.id}}">{{device.device_id}}</a></td>
                         </tr>
                     </table>
-                    <div class="row">
-                        <div class="col-sm-2">Device ID </div>
-                        <div class="col-sm-4"><input ng-model="deviceP.device_id" type="text" id="deviceId" name="deviceId" class="form-control" required></div>
-                        <div class="col-sm-2"><button type="submit" class="btn btn-default" ng-click="addDevice()" >Add Device</button></div>
-                    </div>
                 </div>
             </div>
             <div class="col-sm-2"></div>
@@ -53,8 +46,6 @@
                             <th>Type</th>
                             <th>Date of birth</th>
                             <th>Harvest day</th>
-                            <th >Edit</th>
-                            <th >Delete</th>
                         </tr>
                         <tr ng-repeat="plant in plants">
                             <td>{{$index+1}}</td>
@@ -62,8 +53,6 @@
                             <td>{{plant.type}}</td>
                             <td>{{plant.DOB}}</td>
                             <td>{{plant.harvestDay}}</td>
-                            <td class="text-center"><a ng-href="#/editPlant/{{plant.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
-                            <td class="text-center"><a ng-href="#/deletePlant"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deletePlant(plant.id)"></span></a></td>
                         </tr>
                     </table>
                 </div>

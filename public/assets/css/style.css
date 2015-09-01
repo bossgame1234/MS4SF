@@ -232,7 +232,7 @@ ul.top-menu > li > .logout {
     width: 210px;
     height: 100%;
     position: fixed;
-    background: #424a5d;
+    background: #544415;
 }
 
 #sidebar h5 {
@@ -295,7 +295,7 @@ ul.sidebar-menu {
 }
 
 ul.sidebar-menu li ul.sub li{
-    background: #424a5d;
+    background: rgba(214, 210, 198, 0.34);
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
@@ -307,7 +307,7 @@ ul.sidebar-menu li ul.sub li:last-child{
 }
 
 ul.sidebar-menu li ul.sub li a {
-    font-size: 12px;
+    font-size: 15px;
     padding: 6px 0;
     line-height: 35px;
     height: 35px;
@@ -354,7 +354,7 @@ ul.sidebar-menu li a{
     text-decoration: none;
     display: block;
     padding: 15px 0 15px 10px;
-    font-size: 12px;
+    font-size: 16px;
     outline: none;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -364,7 +364,7 @@ ul.sidebar-menu li a{
 }
 
 ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
-    background: #68dff0;
+    background: #A7A18F;
     color: #fff;
     display: block;
 
@@ -413,8 +413,8 @@ ul.sidebar-menu li a.active i {
 }
 
 .black-bg {
-    background: #ffd777;
-    border-bottom: 1px solid #c9aa5f;
+    background: #4AA226;
+    border-bottom: 1px solid #1F5F1F;
 }
 
 .wrapper {

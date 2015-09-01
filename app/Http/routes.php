@@ -30,6 +30,7 @@ Route::get('humidityWeeklySummary/{id}','weeklyController@getHumidityWeeklySumma
 Route::get('soilMoistureWeeklySummary/{id}','weeklyController@getSoilMoistureWeeklySummary');
 Route::get('temperatureWeeklySummary/{id}','weeklyController@getTemperatureWeeklySummary');
 Route::get('currentEnvironmentValue/{id}','sensorController@getCurrentEnvironmentValue');
+
 //farm CRUD route
 Route::resource('farm','farmController');
 Route::resource('plot','plotController');
@@ -185,5 +186,8 @@ Route::get('device/access/{id}',function($id){
     $deviceA->sensingDevice_id = $DeviceBaseId;
     $deviceA->name = "basic package";
     $deviceA->save();
+});
+Route::get('test',function(){
+    echo url();
 });
 //delete sensor

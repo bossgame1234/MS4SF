@@ -15,20 +15,6 @@ class farmController extends Controller
         $farm = Farm::all();
         return $farm;
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        $farm = Request::all();
-        Farm::create($farm);
-        return $farm;
-        ///
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,6 +22,9 @@ class farmController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->input('name')==null){
+            return null;
+        }
         $farm = new Farm();
         $farm->name = $request->input('name');
         $farm->description = $request->input('description');
@@ -80,6 +69,9 @@ class farmController extends Controller
      */
     public function update($id,Request $request)
     {
+        if($id==null||$request==null){
+            return null;
+        }
         $farmUpdate = $request->all();
         $farm=Farm::find($id);
         $farm->update($farmUpdate); //
@@ -94,6 +86,9 @@ class farmController extends Controller
      */
     public function destroy($id)
     {
+        if($id==null){
+            return null;
+        }
         Farm::find($id)->delete();
         return $id;//
     }

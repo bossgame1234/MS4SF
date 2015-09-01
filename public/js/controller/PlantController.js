@@ -4,8 +4,8 @@
 'use strict';
 
 var plantMainController = angular.module('plantMainController',['plantServices']);
-plantMainController.controller('listPlantController', ['$scope', '$http', '$routeParams', '$location', '$rootScope','plantService',
-    function ($scope, $http, $routeParams, $location, $rootScope,plantService) {
+plantMainController.controller('listPlantController', ['$scope', '$http','$route', '$routeParams', '$location', '$rootScope','plantService',
+    function ($scope, $http,$route, $routeParams, $location, $rootScope,plantService) {
         $http.get("plant/" + $rootScope.plotId+"/edit").success(function (data) {
             $scope.plants = data;
         });
@@ -13,7 +13,8 @@ plantMainController.controller('listPlantController', ['$scope', '$http', '$rout
             var answer = confirm("Do you want to delete the plant?");
             if (answer) {
                 plantService.delete({id:id},function(){
-                    $location.path("viewPlot/"+$rootScope.plotId);
+                    alert("Success");
+                   $route.reload();
                 }).
                     error(function(data) {
                         alert("There is a problem! Your request has not been fulfilled, please try again");
@@ -22,13 +23,17 @@ plantMainController.controller('listPlantController', ['$scope', '$http', '$rout
     }]);
 plantMainController.controller('addPlantToPlotController',['$scope', '$routeParams', '$http','$location', '$rootScope','plantService',
     function ($scope,$routeParams, $http,$location, $rootScope,plotService) {
+        if($rootScope.plotId==null){
+            $location.path("showFarmList")
+        }
         $scope.addPlant = true;
         $scope.editPlant = false;
         $scope.plant = {plant_id:'',type:'',DOB:'',harvestDay:'',name:''};
         $scope.plant.plot_id = $rootScope.plotId;
         $scope.addPlant = function() {
             plotService.save($scope.plant, function (data) {
-                $location.path("viewPlot/"+$scope.plant.plot_id);
+                alert("success");
+                $location.path("viewPlant");
             }, function (error) {
                 alert("There is a problem! Your request has not been fulfilled, please try again");
             })
@@ -44,13 +49,17 @@ plantMainController.controller('editPlantController', ['$scope', '$http', '$rout
             $scope.plant.DOB = new Date(data.DOB);
         });
         $scope.editPlant = function () {
-            //$http.put("/plot", $scope.plot).then(function () {
-            plotService.update({id:$scope.plant.id},$scope.plant,function(){
-                    $location.path("viewPlot/"+$scope.plant.plot_id);
-                }, function (error) {
-                    alert("There is a problem! Your request has not been fulfilled, please try again");
-                }
-            );
+            var answer = confirm("Do you want to update the plant?");
+            if (answer) {
+                //$http.put("/plot", $scope.plot).then(function () {
+                plotService.update({id: $scope.plant.id}, $scope.plant, function () {
+                        alert("success");
+                        $location.path("viewPlant");
+                    }, function (error) {
+                        alert("There is a problem! Your request has not been fulfilled, please try again");
+                    }
+                );
+            }
         }
     }]);
 
@@ -58,7 +67,7 @@ plantMainController.controller('viewPlantController', ['$scope', '$http', '$rout
     function ($scope, $http, $routeParams, $location, $rootScope,plotService) {
         $rootScope.plantID = $routeParams.id;
         var id = $routeParams.id;
-        $http.get("plot/" + id).success(function (data) {
-            $scope.plot = data;
+        $http.get("plant/" + id).success(function (data) {
+            $scope.plant = data;
         });
     }]);

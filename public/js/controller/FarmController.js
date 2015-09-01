@@ -5,26 +5,42 @@
 
 var farmMainController = angular.module('farmMainController',['farmServices','uiGmapgoogle-maps']);
 
-farmMainController.controller('showFarmController',['$scope','$http','$location','$rootScope','$route','farmService',function($scope,$http,$location, $rootScope,$route,farmService)
+farmMainController.controller('showFarmController',['$scope','$http','$location','$rootScope','$route', '$routeParams','farmService',function($scope,$http,$location, $rootScope,$route,$routeParams,farmService)
 {
-
-   // $http.get('farm').success(function(data){
         var data = farmService.query(function(){
             $scope.farms = data;
         },function(error) {
             alert("There is a problem! Your request has not been fulfilled, please try again");
         });
-       $scope.deleteFarm = function(id){
-           var answer = confirm("Do you want to delete the farm?");
+
+       $scope.deleteFarm = function(id) {
+           var answer = confirm("Do you want to delete the farm? \n*removing the farm will also remove its plots,plant,and devices");
            if (answer) {
-               farmService.delete({id:id},function(){
-                   $rootScope.deleteSuccess = true;
-                   $location.path("showFarmList");
-               },function(error) {
+               farmService.delete({id:id},function () {
+                   alert("Success");
+                   $route.reload();
+               }, function (error) {
                    alert("There is a problem! Your request has not been fulfilled, please try again");
-               });
+               })
            }
-       }
+       };
+       $scope.selectFarm= function(id,name){
+        $rootScope.PlotName = null;
+        $rootScope.plotId= null;
+        $rootScope.SelectedPlot = false;
+        $rootScope.DeviceId = null;
+        $rootScope.Device_id = null;
+        $rootScope.SelectedDevice = false;
+        if($rootScope.FarmId==id){
+            $rootScope.FarmName = null;
+            $rootScope.FarmId = null;
+            $rootScope.SelectedFarm = false;
+        }else {
+            $rootScope.FarmName = name;
+            $rootScope.FarmId = id;
+            $rootScope.SelectedFarm = true;
+        }
+        }
 }]);
 farmMainController.controller('addFarmController',['$scope', '$http','$timeout','uiGmapLogger','rndAddToLatLon','uiGmapGoogleMapApi','$location', '$rootScope','farmService',
     function ($scope, $http,$timeout, $log, rndAddToLatLon,GoogleMapApi,$location, $rootScope,farmService) {
@@ -33,39 +49,52 @@ farmMainController.controller('addFarmController',['$scope', '$http','$timeout',
         $scope.farm = {latitude:'',longitude:'',description:'',name:'',address:''};
         $scope.addFarm =function(){
         farmService.save($scope.farm,function(data) {
+            alert("success");
             $location.path("showFarmList");
         },function(error) {
             alert("There is a problem! Your request has not been fulfilled, please try again");
         }
         )
-        }
+        };
         GoogleMapApi.then(function(maps) {
-        angular.extend($scope, {
-            map: {
-                show: true,
-                control: {},
-                version: "unknown",
-                heatLayerCallback: function (layer) {
-                    //set the heat layers backend data
-                    var mockHeatLayer = new MockHeatLayer(layer);
+            maps.visualRefresh =true;
+
+            $scope.defaultBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(40.82148, -73.66450),
+                new google.maps.LatLng(40.66541, -74.31715));
+            $scope.map.bounds = {
+                northeast: {
+                    latitude:$scope.defaultBounds.getNorthEast().lat(),
+                    longitude:$scope.defaultBounds.getNorthEast().lng()
                 },
-                showTraffic: true,
-                showBicycling: false,
-                showWeather: false,
-                showHeat: false,
+                southwest: {
+                    latitude:$scope.defaultBounds.getSouthWest().lat(),
+                    longitude:$scope.defaultBounds.getSouthWest().lng()
+                }
+            };
+            $scope.searchbox.options.bounds = new google.maps.LatLngBounds($scope.defaultBounds.getNorthEast(), $scope.defaultBounds.getSouthWest());
+        });
+
+        angular.extend($scope, {
+            selected: {
+                options: {
+                    visible:false
+
+                },
+                templateurl:'window.tpl.html',
+                templateparameter: {}
+            },
+            map: {
+                control: {},
                 center: {
                     latitude: 14.5623,
                     longitude: 100.6127
                 },
-                options: {
-                    streetViewControl: false,
-                    panControl: false,
-                    maxZoom: 20,
-                    minZoom: 3
-                },
                 zoom: 6,
                 dragging: false,
                 bounds: {},
+                markers: [],
+                idkey: 'place_id',
                 clickedMarker: {
                     id: 0,
                     options: {}
@@ -89,12 +118,86 @@ farmMainController.controller('addFarmController',['$scope', '$http','$timeout',
                         };
                         //scope apply required because this event handler is outside of the angular domain
                         $scope.$apply();
+                    },
+                    idle: function (map) {
+                    },
+                    dragend: function(map) {
+//update the search box bounds after dragging the map
+                        var bounds = map.getBounds();
+                        var ne = bounds.getNorthEast();
+                        var sw = bounds.getSouthWest();
+                        $scope.searchbox.options.bounds = new google.maps.LatLngBounds(sw, ne);
+//$scope.searchbox.options.visible = true;
                     }
                 }
-            }
-        });
-        })
-    }]);
+            },
+            searchbox: {
+                template: 'searchbox.tpl.html',
+                options: {
+                    autocomplete: true,
+                    types: ['(cities)'],
+                    componentRestrictions: {country: 'th'}
+                },
+                events: {
+                    place_changed: function (autocomplete) {
+
+                        var place = autocomplete.getPlace();
+
+                        if (place.address_components) {
+
+                            var newMarkers = [];
+                            var bounds = new google.maps.LatLngBounds();
+
+                            var marker = {
+                                id: place.place_id,
+                                place_id: place.place_id,
+                                name: place.address_components[0].long_name,
+                                latitude: place.geometry.location.lat(),
+                                longitude: place.geometry.location.lng(),
+                                options: {
+                                    visible: false
+                                },
+                                templateurl: 'window.tpl.html',
+                                templateparameter: place
+                            };
+                            $scope.farm.latitude =  place.geometry.location.lat();
+                            $scope.farm.longitude =  place.geometry.location.lng();
+                            newMarkers.push(marker);
+
+                            bounds.extend(place.geometry.location);
+
+                            $scope.map.bounds = {
+                                northeast: {
+                                    latitude: bounds.getNorthEast().lat(),
+                                    longitude: bounds.getNorthEast().lng()
+                                },
+                                southwest: {
+                                    latitude: bounds.getSouthWest().lat(),
+                                    longitude: bounds.getSouthWest().lng()
+                                }
+                            };
+
+                            _.each(newMarkers, function (marker) {
+                                marker.closeClick = function () {
+                                    $scope.selected.options.visible = false;
+                                    marker.options.visble = false;
+                                    return $scope.$apply();
+                                };
+                                marker.onClicked = function () {
+                                    $scope.selected.options.visible = false;
+                                    $scope.selected = marker;
+                                    $scope.selected.options.visible = true;
+                                };
+                            });
+
+                            $scope.map.markers = newMarkers;
+                        } else {
+                            console.log("do something else with the search string: " + place.name);
+                        }
+                    }
+                }
+                }});
+            }]);
 farmMainController.controller('editFarmController',['$scope', '$routeParams', '$http','$timeout','uiGmapLogger','rndAddToLatLon','uiGmapGoogleMapApi','$location', '$rootScope','farmService',
     function ($scope,$routeParams, $http,$timeout, $log, rndAddToLatLon,GoogleMapApi,$location, $rootScope,farmService) {
         $scope.editFarm = true;
@@ -165,15 +268,18 @@ farmMainController.controller('editFarmController',['$scope', '$routeParams', '$
                 alert("There is a problem! Your request has not been fulfilled, please try again");
             }
         );
-        $scope.editFarm =function(){
-            farmService.update({id:$scope.farm.id},$scope.farm,function(data) {
-                    $location.path("showFarmList");
-                },function(error) {
-                    alert("There is a problem! Your request has not been fulfilled, please try again");
-                }
-            )
+        $scope.editFarm =function() {
+            var answer = confirm("Do you want to update the farm?");
+            if (answer) {
+                farmService.update({id: $scope.farm.id}, $scope.farm, function (data) {
+                        alert("success");
+                        $location.path("showFarmList");
+                    }, function (error) {
+                        alert("There is a problem! Your request has not been fulfilled, please try again");
+                    }
+                )
+            }
         };
-
     }]);
 farmMainController.controller('viewFarmController',['$scope', '$routeParams', '$http','$timeout','uiGmapLogger','rndAddToLatLon','uiGmapGoogleMapApi','$location', '$rootScope','farmService',
     function ($scope,$routeParams, $http,$timeout, $log, rndAddToLatLon,GoogleMapApi,$location, $rootScope,farmService) {

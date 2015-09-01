@@ -67,6 +67,9 @@ class plotController extends Controller
      */
     public function destroy($id)
     {
+        if($id==null){
+            return null;
+        }
         Plot::find($id)->delete();
         return $id;
     }

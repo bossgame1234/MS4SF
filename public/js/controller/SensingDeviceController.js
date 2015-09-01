@@ -4,8 +4,8 @@
 'use strict';
 
 var deviceMainController = angular.module('deviceMainController',['deviceServices']);
-deviceMainController.controller('listDeviceController', ['$scope', '$http','$route', '$routeParams', '$location', '$rootScope','deviceService',
-    function ($scope, $http,$route, $routeParams, $location, $rootScope,deviceService) {
+deviceMainController.controller('listDeviceController', ['$scope', '$routeParams','$route','$http','$location','$rootScope','deviceService',
+    function ($scope, $routeParams,$route, $http, $location, $rootScope,deviceService) {
         $http.get("device").success(function (data) {
             $scope.devices = data;
         });
@@ -23,15 +23,17 @@ deviceMainController.controller('listDeviceController', ['$scope', '$http','$rou
             var answer = confirm("Do you want to delete the sensingDevice?");
             if (answer) {
                 deviceService.delete({id:id},function(){
+                    alert("Success");
                     $route.reload();
                 },function(error) {
                     alert("There is a problem! Your request has not been fulfilled, please try again");
                 });
-
             }};
+
         $scope.addDevice = function() {
             deviceService.save($scope.newDevice, function (data) {
                     $http.get("device/access/"+$scope.newDevice.device_id).success(function (data) {
+                        alert("success");
                         $route.reload();
                     }, function (error) {
                         alert("There is a problem! Your request has not been fulfilled, please try again");
@@ -44,7 +46,8 @@ deviceMainController.controller('listDeviceController', ['$scope', '$http','$rou
     }]);
 deviceMainController.controller('PlotWithDeviceController',['$scope','$routeParams','$route','$http','$location', '$rootScope','deviceService',
     function ($scope,$routeParams,$route, $http,$location, $rootScope,deviceService) {
-        $http.get("device/"+$scope.plotId+"/edit").success(function (data) {
+
+        $http.get("device/"+$rootScope.plotId+"/edit").success(function (data) {
             $scope.devices = data;
         });
         $scope.deviceP ={device_id:''};
@@ -52,6 +55,7 @@ deviceMainController.controller('PlotWithDeviceController',['$scope','$routePara
             var answer = confirm("Do you want to delete the sensingDevice from plot?");
             if (answer) {
                 $http.get("device/destroy/"+id).success(function () {
+                    alert("Deleted");
                     $route.reload();
                 }).
                     error(function() {
@@ -60,70 +64,120 @@ deviceMainController.controller('PlotWithDeviceController',['$scope','$routePara
             }};
         $scope.addDevice = function() {
             deviceService.update({id:$scope.deviceP.device_id},{plot_id:$rootScope.plotId}, function () {
+                    alert("success");
                     $route.reload();
                 }
                 , function (error) {
-                    alert("Not found device id in the base system");
+                    alert("Wrong device ID!!");
                 });
+        };
+        $scope.selectDevice= function(id,device_id){
+            if($rootScope.DeviceId==id){
+                $rootScope.DeviceId = null;
+                $rootScope.Device_id = null;
+                $rootScope.SelectedDevice = false;
+            }else {
+                $rootScope.DeviceId = id;
+                $rootScope.Device_id = device_id;
+                $rootScope.SelectedDevice = true;
+            }
         }
     }]);
-deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$routeParams','$route','$http','$location', '$rootScope',
-    function ($scope,$routeParams,$route, $http,$location, $rootScope) {
+deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$routeParams','$route', '$interval','$http','$location', '$rootScope',
+    function ($scope,$routeParams,$route,$interval, $http,$location, $rootScope) {
     var id =$routeParams.id;
-        $rootScope.deviceId = id;
+        $rootScope.DeviceId = id;
         $rootScope.deviceSummary = true;
         $scope.daily=true;
         $scope.weekly=false;
         $scope.showLight = function(){
-            $scope.title = "Light sensor";
-            $scope.measure = "Lux .";
-            $scope.lightGraph = true;
-            $scope.humidityGraph = false;
-            $scope.soilMoistureGraph = false;
-            $scope.temperatureGraph = false;
-            $scope.description = "max light";
-            $scope.description2 = "average light";
-            $scope.description3 = "min light";
-
-           $scope.showGraph();
+            if($scope.lightGraph == true){
+                $scope.lightGraph = false;
+            }else {
+                $scope.title = "Light sensor";
+                $scope.measure = "Lux .";
+                $scope.lightGraph = true;
+                $scope.humidityGraph = false;
+                $scope.soilMoistureGraph = false;
+                $scope.temperatureGraph = false;
+                $scope.description = "max light";
+                $scope.description2 = "average light";
+                $scope.description3 = "min light";
+                $scope.showGraph();
+            }
         };
         $scope.showHumidity = function(){
-            $scope.title = "Humidity sensor";
-            $scope.measure = " %";
-            $scope.lightGraph = false;
-            $scope.humidityGraph = true;
-            $scope.soilMoistureGraph = false;
-            $scope.temperatureGraph = false;
-            $scope.description = "max air humidity";
-            $scope.description2 = "average air humidity";
-            $scope.description3 = "min air humidity";
+            if($scope.humidityGraph == true){
+                $scope.humidityGraph = false;
+            }else {
+                $scope.title = "Humidity sensor";
+                $scope.measure = " %";
+                $scope.lightGraph = false;
+                $scope.humidityGraph = true;
+                $scope.soilMoistureGraph = false;
+                $scope.temperatureGraph = false;
+                $scope.description = "max air humidity";
+                $scope.description2 = "average air humidity";
+                $scope.description3 = "min air humidity";
+                $scope.showGraph();
+            }
 
-            $scope.showGraph();
         };
         $scope.showTemperature = function(){
-            $scope.title = "Temperature sensor";
-            $scope.measure = " celsius";
-            $scope.lightGraph = false;
-            $scope.humidityGraph = false;
-            $scope.soilMoistureGraph = false;
-            $scope.temperatureGraph = true;
-            $scope.description = "max temperature";
-            $scope.description2 = "average temperature";
-            $scope.description3 = "min temperature";
-            $scope.showGraph();
+            if($scope.temperatureGraph== true){
+                $scope.temperatureGraph = false;
+            }else {
+                $scope.title = "Temperature sensor";
+                $scope.measure = " celsius";
+                $scope.lightGraph = false;
+                $scope.humidityGraph = false;
+                $scope.soilMoistureGraph = false;
+                $scope.temperatureGraph = true;
+                $scope.description = "max temperature";
+                $scope.description2 = "average temperature";
+                $scope.description3 = "min temperature";
+                $scope.showGraph();
+            }
         };
         $scope.showSoilMoisture = function(){
-            $scope.title = "Soil moisture sensor";
-            $scope.measure = " ";
-            $scope.lightGraph = false;
-            $scope.humidityGraph = false;
-            $scope.soilMoistureGraph = true;
-            $scope.temperatureGraph = false;
-            $scope.description = "max soil moisture";
-            $scope.description2 = "average soil moisture";
-            $scope.description3 = "min soil moisture";
-            $scope.showGraph();
+            if($scope.soilMoistureGraph== true){
+                $scope.soilMoistureGraph = false;
+            }else {
+                $scope.title = "Soil moisture sensor";
+                $scope.measure = " ";
+                $scope.lightGraph = false;
+                $scope.humidityGraph = false;
+                $scope.soilMoistureGraph = true;
+                $scope.temperatureGraph = false;
+                $scope.description = "max soil moisture";
+                $scope.description2 = "average soil moisture";
+                $scope.description3 = "min soil moisture";
+                $scope.showGraph();
+            }
         };
+        $http.get("sensor/"+id).success(function(data){
+            $scope.SensorID = data.id;
+            $rootScope.showSensor = true;
+            $http.get("lightSummary/"+$scope.SensorID).success(function(data){
+                $scope.light = data;
+            });
+            $http.get("humiditySummary/"+$scope.SensorID).success(function(data){
+                $scope.humidity = data;
+            });
+            $http.get("soilMoistureSummary/"+$scope.SensorID).success(function(data){
+                $scope.soilMoisture = data;
+            });
+            $http.get("temperatureSummary/"+$scope.SensorID).success(function(data){
+                $scope.temperature = data;
+            });
+            $http.get("daily/"+$scope.SensorID).success(function(data){
+                $scope.hours = data;
+            });
+            $http.get("currentEnvironmentValue/"+$scope.SensorID).success(function(data){
+                $scope.current = data;
+            });
+        });
+    $interval(function(){
     $http.get("sensor/"+id).success(function(data){
         $scope.SensorID = data.id;
         $rootScope.showSensor = true;
@@ -145,7 +199,9 @@ deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$
         $http.get("currentEnvironmentValue/"+$scope.SensorID).success(function(data){
             $scope.current = data;
         });
+        $scope.showGraph();
     });
+    },10000);
         $scope.showGraph =function() {
             $scope.rows = new Array();
             var xValues = new Array(); // date data points

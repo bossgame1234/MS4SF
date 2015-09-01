@@ -1,6 +1,6 @@
 <section id="main-content">
     <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> {{farm.name}}</h3>
+        <h3><i class="fa fa-angle-right"></i> {{farm.name}}</h3><a href="#/showFarmList"><button class="btn btn-default btn-primary">Back</button></a>
                 <div class="row centered">
                     <ui-gmap-google-map
                                         center="map.center"
@@ -38,16 +38,12 @@
                 <th >Name</th>
                 <th >Description</th>
                 <th >Date of create</th>
-                <th >Edit</th>
-                <th >Delete</th>
             </tr>
             <tr ng-repeat="plot in plots">
                 <td>{{$index+1}}</td>
                 <td><a ng-href="#/viewPlot/{{plot.id}}">{{plot.name}}</a></td>
                 <td>{{plot.description}}</td>
                 <td>{{plot.DOB}}</td>
-                <td class="text-center"><a ng-href="#/editPlot/{{plot.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
-                <td class="text-center"><a ng-href="#/deletePlot"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deletePlot(plot.id)"></span></a></td>
             </tr>
         </table>
         </div>

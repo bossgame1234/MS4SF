@@ -8,5 +8,4 @@ farmService.factory('farmService',function($resource){
         update: {
             method: 'PUT' // this method issues a PUT request
         }});
-
 });
