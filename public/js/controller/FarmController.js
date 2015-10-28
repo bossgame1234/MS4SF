@@ -293,9 +293,9 @@ farmMainController.controller('editFarmController',['$scope', '$routeParams', '$
         $scope.editFarm =function() {
             var answer = confirm("Do you want to update the farm?");
             if (answer) {
-                if(($scope.farm.latitude&&$scope.farms.longitude)!=null) {
+                if(($scope.farm.latitude&&$scope.farm.longitude)!=null) {
                     $rootScope.Latitude = $scope.farm.latitude;
-                    $rootScope.Longitude = $scope.farms.longitude;
+                    $rootScope.Longitude = $scope.farm.longitude;
                 }
                 farmService.update({id: $scope.farm.id}, $scope.farm, function (data) {
                         alert("success");

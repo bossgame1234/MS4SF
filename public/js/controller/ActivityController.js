@@ -334,10 +334,12 @@ activityMainController.controller('timeLineActivityController', ['$scope', '$htt
                      colorBadge = 'success';
                      badgeIcon = 'glyphicon-edit';
                  }
+                 for (var j = 0; j < data[i].activity_type.length; j++) {
+                     $scope.icon[j] = data[i].activity_type[j].name;
+                 }
                  if(nowDate.toString()==acDate.toString()) {
-                     for (var j = 0; j < data[i].activity_type.length; j++) {
-                         $scope.icon[j] = data[i].activity_type[j].name;
-                         switch ($scope.icon[j]) {
+                     for (var k = 0; k < data[i].activity_type.length; j++) {
+                         switch (data[i].activity_type[k].name) {
                              case 'tilling' :
                                  $scope.tillingCount++;
                                  break;
