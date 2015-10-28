@@ -128,6 +128,7 @@ activityMainController.controller('addActivityController',['$scope', '$routePara
                flowFiles.opts.testChunks = false;
                flowFiles.opts.query ={id:data.id,mode:'activity'};
                flowFiles.upload();
+               alert("Success");
                $location.path("timeLineActivity");
            },function(error){
                if(error.status=="500"){
@@ -338,7 +339,7 @@ activityMainController.controller('timeLineActivityController', ['$scope', '$htt
                      $scope.icon[j] = data[i].activity_type[j].name;
                  }
                  if(nowDate.toString()==acDate.toString()) {
-                     for (var k = 0; k < data[i].activity_type.length; j++) {
+                     for (var k = 0; k < data[i].activity_type.length; k++) {
                          switch (data[i].activity_type[k].name) {
                              case 'tilling' :
                                  $scope.tillingCount++;
