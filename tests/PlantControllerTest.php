@@ -9,7 +9,7 @@
 class PlantControllerTest extends TestCase{
  public function testStorePlant()
     {
-        $id = \App\Plot::where("name","like","Test plot 0")->first()->id;
+        $id = \App\Plot::where("name","like","TestActivityPlot")->first()->id;
         $plant= array(
             'name'=>'Test plant',
             'type'=>'Test',
@@ -35,7 +35,7 @@ class PlantControllerTest extends TestCase{
         $this->assertNull($plantController->show(null));
     }
     public function testUpdatePlant(){
-        $id = \App\Plot::where("name","like","Plot test 0")->first()->id;
+        $id = \App\Plot::where("name","like","TestActivityPlot")->first()->id;
         $plant= array(
             'name'=>'Test plant',
             'DOB'=>'2015-07-28',
@@ -52,7 +52,7 @@ class PlantControllerTest extends TestCase{
         $this->assertNull($plantController->update(null,$request));
     }
     public function testDestroyPlant(){
-        $id = \App\Plant::where("name","like","Test plant2")->first()->id;
+        $id = \App\Plant::where("name","like","Test plant")->first()->id;
         $plantController =new \App\Http\Controllers\plantController();
         $plantController->destroy($id);
         $this->assertNull($plantController->show($id));

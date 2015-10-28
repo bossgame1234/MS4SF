@@ -12,6 +12,9 @@ class plotController extends Controller
 {
     public function store(Request $request)
     {
+        if($request->input('name')==null){
+            return null;
+        }
         $plot = new Plot();
         $plot->name = $request->input('name');
         $plot->description = $request->input('description');
@@ -53,6 +56,7 @@ class plotController extends Controller
      */
     public function update($id,Request $request)
     {
+        if($id==null){return null;}
         $plotUpdate = $request->all();
         $plot = Plot::find($id);//
         $plot->update($plotUpdate);

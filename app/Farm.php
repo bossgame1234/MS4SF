@@ -11,4 +11,7 @@ class Farm extends Model {
     public function plot(){
         return $this->hasMany('App\Plot');
     }
+    public function users(){
+        return $this->belongsToMany('App\User');
+    }
 }

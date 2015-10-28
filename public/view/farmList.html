@@ -8,19 +8,19 @@
             <div class="col-sm-3">
         <h3><i class="fa fa-angle-right"></i> Farm List</h3></div>
             <div class="col-sm-7"></div>
-            <div class="col-sm-2">
+            <div class="col-sm-2" ng-show="User.role == 'farmer'">
         <a href="#/addFarm"> <br><button class="btn btn-default btn-primary" >Add farm</button></a>
                 </div>
         </div>
 <!-- Table -->
     <table class="table table-hover">
-        <tr>
+        <tr >
             <th>#</th>
             <th>Name</th>
             <th>Description</th>
             <th>Address</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th ng-show="User.role == 'farmer'">Edit</th>
+            <th ng-show="User.role == 'farmer'">Delete</th>
             <th>Select</th>
         </tr>
         <tr ng-repeat="farm in farms">
@@ -28,9 +28,10 @@
             <td><a ng-href="#/viewFarm/{{farm.id}}">{{farm.name}}</a></td>
             <td>{{farm.description}}</td>
             <td>{{farm.address}}</td>
-            <td><a ng-href="#/editFarm/{{farm.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
-            <td><a href="#/showFarmList"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deleteFarm(farm.id)"></span></a></td>
-            <td><a ng-href="#/showFarmList"><span class="glyphicon glyphicon-pushpin" aria-hidden="true" ng-click="selectFarm(farm.id,farm.name)" /></a></span>
+            <td ng-show="User.role == 'farmer'">&nbsp;<a ng-href="#/editFarm/{{farm.id}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
+            <td ng-show="User.role == 'farmer'">&nbsp;<a href="#/showFarmList" ng-click="deleteFarm(farm.id)"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a></td>
+            <td >&nbsp;<a ng-href="#/showFarmList" ng-click="selectFarm(farm.id,farm.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button>
+            </a>
             </td>
         </tr>
     </table>

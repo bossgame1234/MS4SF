@@ -8,7 +8,7 @@
             <div class="col-sm-3">
         <h3><i class="fa fa-angle-right"></i> Plot List</h3></div>
         <div class="col-sm-7"></div>
-        <div class="col-sm-2" ng-show="SelectedFarm">
+        <div class="col-sm-2" ng-show="SelectedFarm&&User.role == 'farmer'">
         <a href="#/addPlot" > <br><button class="btn btn-default btn-primary" >Add Plot</button></a>
             </div>
         </div>
@@ -19,8 +19,8 @@
                 <th >Name</th>
                 <th >Description</th>
                 <th >Date of create</th>
-                <th >Edit</th>
-                <th >Delete</th>
+                <th ng-show="User.role == 'farmer'">Edit</th>
+                <th ng-show="User.role == 'farmer'">Delete</th>
                 <th>Select</th>
             </tr>
             <tr ng-repeat="plot in plots">
@@ -28,9 +28,9 @@
                 <td><a ng-href="#/viewPlot/{{plot.id}}">{{plot.name}}</a></td>
                 <td>{{plot.description}}</td>
                 <td>{{plot.DOB}}</td>
-                <td class="text-center"><a ng-href="#/editPlot/{{plot.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
-                <td class="text-center"><a href="#/viewPlotList"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deletePlot(plot.id)"></span></a></td>
-                <td><a ng-href="#/viewPlotList"><span class="glyphicon glyphicon-pushpin" aria-hidden="true" ng-click="selectPlot(plot.id,plot.name)" /></a></span></td>
+                <td  ng-show="User.role == 'farmer'"><a ng-href="#/editPlot/{{plot.id}}"> <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
+                <td  ng-show="User.role == 'farmer'"><a href="#/viewPlotList" ng-click="deletePlot(plot.id)"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a></td>
+                <td><a ng-href="#/viewPlotList" ng-click="selectPlot(plot.id,plot.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button></a></td>
             </tr>
         </table>
     </section>

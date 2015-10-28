@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'debug' => env('APP_DEBUG'),
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,6 +113,7 @@ return [
 		/*
 		 * Laravel Framework Service Providers...
 		 */
+		Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Bus\BusServiceProvider',
@@ -135,7 +136,7 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-
+	//	'Intervention\Image\ImageServiceProvider',
 		/*
 		 * Application Service Providers...
 		 */
@@ -144,6 +145,7 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
+		'Intervention\Image\ImageServiceProvider'
 
 	],
 
@@ -159,7 +161,8 @@ return [
 	*/
 
 	'aliases' => [
-
+		'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
+		'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 		'App'       => 'Illuminate\Support\Facades\App',
 		'Artisan'   => 'Illuminate\Support\Facades\Artisan',
 		'Auth'      => 'Illuminate\Support\Facades\Auth',
@@ -192,7 +195,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-
+		'Image'     => 'Intervention\Image\Facades\Image'
 	],
 
 ];

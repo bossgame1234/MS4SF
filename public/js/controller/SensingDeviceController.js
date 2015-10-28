@@ -6,6 +6,9 @@
 var deviceMainController = angular.module('deviceMainController',['deviceServices']);
 deviceMainController.controller('listDeviceController', ['$scope', '$routeParams','$route','$http','$location','$rootScope','deviceService',
     function ($scope, $routeParams,$route, $http, $location, $rootScope,deviceService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         $http.get("device").success(function (data) {
             $scope.devices = data;
         });
@@ -46,7 +49,9 @@ deviceMainController.controller('listDeviceController', ['$scope', '$routeParams
     }]);
 deviceMainController.controller('PlotWithDeviceController',['$scope','$routeParams','$route','$http','$location', '$rootScope','deviceService',
     function ($scope,$routeParams,$route, $http,$location, $rootScope,deviceService) {
-
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         $http.get("device/"+$rootScope.plotId+"/edit").success(function (data) {
             $scope.devices = data;
         });
@@ -85,6 +90,9 @@ deviceMainController.controller('PlotWithDeviceController',['$scope','$routePara
     }]);
 deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$routeParams','$route', '$interval','$http','$location', '$rootScope',
     function ($scope,$routeParams,$route,$interval, $http,$location, $rootScope) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
     var id =$routeParams.id;
         $rootScope.DeviceId = id;
         $rootScope.deviceSummary = true;
@@ -287,6 +295,9 @@ deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$
     }]);
 deviceMainController.controller('sensorMonitoringWeeklySummaryController',['$scope','$routeParams','$route','$http','$location', '$rootScope',
     function ($scope,$routeParams,$route, $http,$location, $rootScope) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         var id =$routeParams.id;
         $scope.daily=false;
         $scope.weekly=true;

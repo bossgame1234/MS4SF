@@ -8,7 +8,7 @@
             <div class="col-sm-3">
                 <h3><i class="fa fa-angle-right"></i> Plant List</h3></div>
             <div class="col-sm-7"></div>
-            <div class="col-sm-2" ng-show="SelectedPlot">
+            <div class="col-sm-2" ng-show="SelectedPlot&&User.role == 'farmer'">
                 <a href="#/addPlant"> <br><button class="btn btn-default btn-primary" >Add plant</button></a>
             </div>
         </div>
@@ -18,15 +18,17 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Type</th>
-                <th >Edit</th>
-                <th >Delete</th>
+                <th ng-show="User.role == 'farmer'">Edit</th>
+                <th ng-show="User.role == 'farmer'">Delete</th>
+                <th >Select</th>
             </tr>
             <tr ng-repeat="plant in plants">
                 <td>{{$index+1}}</td>
                 <td><a ng-href="#/viewPlant/{{plant.id}}">{{plant.name}}</a></td>
                 <td>{{plant.type}}</td>
-                <td class="text-center"><a ng-href="#/editPlant/{{plant.id}}"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
-                <td class="text-center"><a href="#/viewPlant"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ng-click="deletePlant(plant.id)"></span></a></td>
+                <td ng-show="User.role == 'farmer'"><a ng-href="#/editPlant/{{plant.id}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
+                <td  ng-show="User.role == 'farmer'"><a href="#/viewPlant" ng-click="deletePlant(plant.id)"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a></td>
+                <td ><a ng-href="#/viewPlantList" ng-click="selectPlant(plant.id,plant.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button></a></td>
             </tr>
         </table>
     </section>

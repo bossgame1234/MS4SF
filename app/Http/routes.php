@@ -20,6 +20,15 @@ use App\Weekly;
 |
 */
 Route::get('/', function(){return view('app.index');});
+Route::group(['prefix' => 'api'], function()
+{
+    Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
+    Route::post('authenticate', 'AuthenticateController@authenticate');
+    Route::post('user','userController@register');
+    Route::get('user','userController@getMemberListInFarm');
+    Route::get('user/member','userController@getMemberProfile');
+    Route::put('user','userController@updateProfile');
+});
 Route::get('device/destroy/{id}','sensingDeviceController@removePlotFromDevice');
 Route::get('lightSummary/{id}','dailyController@getLightDailySummary');
 Route::get('humiditySummary/{id}','dailyController@getHumidityDailySummary');
@@ -31,7 +40,11 @@ Route::get('soilMoistureWeeklySummary/{id}','weeklyController@getSoilMoistureWee
 Route::get('temperatureWeeklySummary/{id}','weeklyController@getTemperatureWeeklySummary');
 Route::get('currentEnvironmentValue/{id}','sensorController@getCurrentEnvironmentValue');
 
+//not yet
+Route::post('uploadPicture','FileUploadController@upload');
+
 //farm CRUD route
+Route::resource('activity','activityController');
 Route::resource('farm','farmController');
 Route::resource('plot','plotController');
 Route::resource('plant','plantController');
@@ -43,20 +56,8 @@ Route::resource('weekly','weeklyController');
 Route::get('sensingResister/{device_id}/{temperature}/{soilmoisture}/{light}/{humidity}',function($id,$temp,$soil,$lux,$humid){
     $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
     $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
-    $Sensor = Sensor::find($SensorPrimaryKey);
-    $temperature = new Temperature();
-    $soilMoisture= new SoilMoisture();
-    $light = new Light();
-    $humidity = new Humidity();
-    $temperature->celsiusValue = $temp;
-    $soilMoisture->soilValue = $soil;
-    $light->luxValue = $lux;
-    $humidity->humidityPercentage = $humid;
-    $Sensor->temperature()->save($temperature);
-    $Sensor->soilMoisture()->save($soilMoisture);
-    $Sensor->light()->save($light);
-    $Sensor->humidity()->save($humidity);
     $checkHourly = Light::where('sensor_id','=',$SensorPrimaryKey)->count();
+    $Sensor = Sensor::find($SensorPrimaryKey);
     if($checkHourly==6) {
         $lightMin = Light::where('sensor_id','=',$SensorPrimaryKey)->min('luxValue');
         $lightAverage = Light::where('sensor_id','=',$SensorPrimaryKey)->avg('luxValue');
@@ -171,13 +172,19 @@ Route::get('sensingResister/{device_id}/{temperature}/{soilmoisture}/{light}/{hu
                 Weekly::where('sensor_id','like',$SensorPrimaryKey)->delete();
             }
         }
-
-
     }
-
-
-
-
+    $temperature = new Temperature();
+    $soilMoisture= new SoilMoisture();
+    $light = new Light();
+    $humidity = new Humidity();
+    $temperature->celsiusValue = $temp;
+    $soilMoisture->soilValue = $soil;
+    $light->luxValue = $lux;
+    $humidity->humidityPercentage = $humid;
+    $Sensor->temperature()->save($temperature);
+    $Sensor->soilMoisture()->save($soilMoisture);
+    $Sensor->light()->save($light);
+    $Sensor->humidity()->save($humidity);
 });
 //add sensor to sensingDevice
 Route::get('device/access/{id}',function($id){

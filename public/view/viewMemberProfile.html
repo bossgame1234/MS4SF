@@ -1,0 +1,25 @@
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <div class="form-body">
+            <div class="col-lg-12">
+                <div class="row content-panel">
+
+            <div class="col-md-4 profile-text col-md-push-3">
+                <h2 style="color: #FF865C">{{member.name}} {{member.lastname}}</h2>
+                <h5 style="margin-left: 0px">{{member.role}}</h5>
+                <h4 style="margin-left: 0px">Telephone</h4>
+                <h5 style="margin-left: 0px">{{member.phoneNumber}}</h5>
+                <h4 style="margin-left: 0px">Email</h4>
+                <h5 style="margin-left: 0px">{{member.email}}</h5>
+            </div>
+            <div class="col-md-2 centered col-md-push-3">
+                <div class="profile-pic">
+                    <p><img ng-if="member.pictureDist" src="{{member.pictureDist}}" class="img-circle thumbnail" height="200px" width="200px"  style="border:1px solid black;" >
+                        <img ng-if="!member.pictureDist" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle" height="180px" width="150px"  style="border:1px solid black;" ></p>
+                </div>
+            </div>
+            </div>
+        </div>
+</div>
+    </section>
+    </section>

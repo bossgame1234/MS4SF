@@ -1,0 +1,151 @@
+<section id="main-content">
+    <section class="wrapper">
+        <div ng-hide="check">
+            <label>Select "Create New Activity" to start tracking your farm activities</label>
+        </div>
+        <timeline class="col-lg-10 col-xs-12">
+            <timeline-event ng-repeat="event in events|filter:search">
+
+                <!-- uses angular-scroll-animate to give it some pop -->
+                <timeline-badge class="{{event.badgeClass}} hidden"
+                                when-visible="animateElementIn" when-not-visible="animateElementOut">
+                    <i class="glyphicon {{event.badgeIconClass}}"></i>
+                </timeline-badge>
+
+                <!-- uses angular-scroll-animate to give it some pop -->
+                <timeline-panel class="{{event.badgeClass}} hidden"
+                                when-visible="animateElementIn" when-not-visible="animateElementOut">
+                    <!--<div class="btn-group" style="margin-left: 220%" ng-hide="User.username != event.username">-->
+                        <!--<button type="button" class="btn btn-theme04 dropdown-toggle" data-toggle="dropdown">-->
+                            <!--<span class="caret"></span>-->
+                            <!--<span class="sr-only">Toggle Dropdown</span>-->
+                        <!--</button>-->
+                        <!--<ul class="dropdown-menu" style="margin-left: -380%" role="menu">-->
+                            <!--<li><a href="#/editActivity/{{event.activityID}}"><span class="fa fa-edit"></span>Edit</a></li>-->
+                            <!--<li><a href="" ng-click="deleteActivity(event.activityID)"><span class="fa fa-trash-o"></span>Delete</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <timeline-heading>
+                            <h4 style="margin-right: -100%">{{event.title}}</h4>
+                            <p ng-if="event.when" style="margin-right: -100%">
+                            <small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{event.when}}</small><br/>
+                            <small class="text-muted">posted by <a href="#viewMemberProfile/{{event.who.id}}"> {{event.who.name}}</a></small>
+                        </p>
+                        <p ng-if="event.titleContentHtml" ng-bind-html="event.titleContentHtml" style="margin-right: -100%">
+                        </p>
+                        <p ng-bind-html="event.contentHtml" style="margin-right: -100%"></p>
+                        <div style="margin-right: -100%;">
+                            <img ng-if="event.icons" ng-repeat="icon in event.icons" style="float: left; margin: 0px 15px 15px 0px;" width="50px" height="50px" src="assets/img/{{icon}}.jpg">
+                        </div>
+                    </timeline-heading>
+
+                    <timeline-footer ng-if="event.footerContentHtml" style="margin-right: -100%">
+                        <span ng-bind-html="event.footerContentHtml"></span>
+                    </timeline-footer>
+                    <div class="btn-group" style="margin-left: 220%" ng-hide="User.username != event.username">
+                        <button type="button" class="btn btn-theme04 dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" style="margin-left: -380%" role="menu">
+                            <li><a href="#/editActivity/{{event.activityID}}"><span class="fa fa-edit"></span>Edit</a></li>
+                            <li><a href="" ng-click="deleteActivity(event.activityID)"><span class="fa fa-trash-o"></span>Delete</a></li>
+                        </ul>
+                    </div>
+                </timeline-panel>
+            </timeline-event>
+        </timeline>
+        <section class="col-lg-2 col-xs-12 ds" style="background-color: transparent">
+            <a href="#addActivity"><h3 style="background-color: #428BCA;border-radius: 0.5em">Create Activity</h3></a>
+        <br/>
+        <select  class="form-control" ng-model="search.$">
+            <option value="tilling">Tilling</option>
+            <option value="planting">Planting</option>
+            <option value="pruning">Pruning</option>
+            <option value="harvesting">Harvesting</option>
+            <option value="fertilizing">Fertilizing</option>
+            <option value="watering">Watering </option>
+            <option value="scouting">Scouting</option>
+            <option value="" selected>All</option>
+            <option value="{{User.name}}" selected>Me</option>
+            <option value="{{toDay}}" selected>Today</option>
+        </select>
+        <br/>
+            <h4 align="center">Today Activity Count</h4>
+            <!-- First Action -->
+            <div class="desc" >
+                <div class="thumb">
+                    <img width="50px" height="50px" src="assets/img/tilling.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                  <br/>
+                    <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{tillingCount}}</span>
+                    <br/>
+                </div>
+            </div>
+            <div class="desc">
+                <div class="thumb">
+                    <img width="50px" height="50px" src="assets/img/pruning.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                    <br/>
+                    <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{pruningCount}}</span>
+                </div>
+            </div>
+            <div class="desc">
+                <div class="thumb">
+                    <img width="50px" height="50px" src="assets/img/planting.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                    <br/>
+                    <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{plantingCount}}</span>
+                </div>
+            </div>
+            <div class="desc">
+                <div class="thumb">
+                    <img width="50px" height="50px" src="assets/img/harvesting.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                    <br/>
+                    <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{harvestingCount}}</span>
+                </div>
+            </div>
+            <div class="desc">
+                <div class="thumb">
+                    <img width="50px" height="50px" src="assets/img/fertilizing.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                    <br/>
+                     <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{fertilizingCount}}</span>
+                </div>
+            </div>
+            <div class="desc">
+                <div class="thumb">
+                    <img width="50px" height="50px"  src="assets/img/watering.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                    <br/>
+                    <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{wateringCount}}</span>
+                </div>
+            </div>
+            <div class="desc">
+                <div class="thumb">
+                    <img width="50px" height="50px" src="assets/img/scouting.jpg" >
+                </div>
+                <div class="details" style="float: none;width: 90%">
+                    <br/>
+                    <span class="label label-theme pull-right inbox-notification" style="font-size: 130%">{{scoutingCount}}</span>
+                </div>
+            </div>
+        <!--<ul class="nav nav-stacked " >-->
+            <!--<li></li>-->
+            <!--<li><img width="30" height="30" src="assets/img/planting.jpg"> Planting <span class="label label-theme pull-right inbox-notification">{{plantingCount}}</span></li>-->
+            <!--<li><img width="30" height="30" src="assets/img/pruning.jpg"> Pruning <span class="label label-theme pull-right inbox-notification">{{pruningCount}}</span></li>-->
+            <!--<li><img width="30" height="30" src="assets/img/harvesting.jpg"> Harvesting <span class="label label-theme pull-right inbox-notification">{{harvestingCount}}</span></li>-->
+            <!--<li><img width="30" height="30" src="assets/img/fertilizing.jpg"> Fertilizing <span class="label label-theme pull-right inbox-notification">{{fertilizingCount}}</span></li>-->
+            <!--<li><img width="30" height="30" src="assets/img/watering.jpg">Watering <span class="label label-theme pull-right inbox-notification">{{wateringCount}}</span></li>-->
+            <!--<li><img width="30" height="30" src="assets/img/scouting.jpg"> Scouting <span class="label label-theme pull-right inbox-notification">{{scoutingCount}}</span></li>-->
+        <!--</ul>-->
+    </section>
+        </section>
+    </section>

@@ -55,6 +55,9 @@ class plantController extends Controller
     public function update($id,Request $request)
     {
         $plantUpdate = $request->all();
+        if($id==null){
+            return null;
+        }
         $plant = Plant::find($id);//
         $plant->update($plantUpdate);
         return $plant;

@@ -6,6 +6,9 @@
 var plotMainController = angular.module('plotMainController',['plotServices']);
 plotMainController.controller('listPlotController', ['$scope', '$http','$route', '$routeParams', '$location', '$rootScope','plotService',
     function ($scope, $http, $route,$routeParams, $location, $rootScope,plotService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         $http.get("plot/" + $rootScope.FarmId+"/edit").success(function (data) {
             $scope.plots = data;
         });
@@ -25,6 +28,9 @@ plotMainController.controller('listPlotController', ['$scope', '$http','$route',
             $rootScope.DeviceId = null;
             $rootScope.Device_id = null;
             $rootScope.SelectedDevice = false;
+            $rootScope.PlantId = null;
+            $rootScope.plantName = null;
+            $rootScope.SelectedPlant = false;
             if( $rootScope.plotId==id){
                 $rootScope.PlotName = null;
                 $rootScope.plotId = null;
@@ -38,6 +44,9 @@ plotMainController.controller('listPlotController', ['$scope', '$http','$route',
     }]);
 plotMainController.controller('addPlotToFarmController',['$scope', '$routeParams', '$http','$location', '$rootScope','plotService',
     function ($scope,$routeParams, $http,$location, $rootScope,plotService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         if($rootScope.FarmId==null){
             $location.path("showFarmList")
         }
@@ -56,6 +65,9 @@ plotMainController.controller('addPlotToFarmController',['$scope', '$routeParams
     }]);
 plotMainController.controller('editPlotController', ['$scope', '$http', '$routeParams', '$location', '$rootScope','plotService',
     function ($scope, $http, $routeParams, $location, $rootScope,plotService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         $scope.addPlot = false;
         $scope.editPlot = true;
         var id = $routeParams.id;
@@ -81,6 +93,9 @@ plotMainController.controller('editPlotController', ['$scope', '$http', '$routeP
 
 plotMainController.controller('viewPlotController', ['$scope', '$http', '$routeParams', '$location', '$rootScope','plotService',
     function ($scope, $http, $routeParams, $location, $rootScope,plotService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         var id = $routeParams.id;
         $rootScope.plotId = id;
         $http.get("plot/" + id).success(function (data) {

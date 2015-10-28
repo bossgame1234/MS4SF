@@ -1,0 +1,26 @@
+<section id="main-content5">
+    <section class="wrapper">
+<div id="login-page">
+    <div class="container">
+
+        <form class="form-login" name="login">
+            <h2 class="form-login-heading">sign in now</h2>
+            <div class="login-wrap">
+                <input type="text" class="form-control" name="un" placeholder="User ID" ng-model="auth.username" autofocus required>
+                <br>
+                <input type="password" class="form-control" name="pw" placeholder="Password" ng-model="auth.password" required>
+                <br>
+                <button class="btn btn-theme btn-block" ng-disabled="login.un.$error.required||login.pw.$error.required" ng-click="auth.login()" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
+                <hr>
+                <div class="registration">
+                    Don't have an account yet?<br/>
+                    <a data-toggle="modal" href="#register" >
+                        Register
+                    </a>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </section>
+</section>

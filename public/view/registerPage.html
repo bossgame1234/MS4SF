@@ -1,0 +1,100 @@
+<section >
+    <section class="wrapper">
+            <div class="col-lg-6 col-lg-offset-3">
+                <form class="form-horizontal form-panel style-form" name="register" style="border-radius:5px 5px 5px 5px;" novalidate flow-init>
+                    <a href="#login"><button type="button" class="close"  aria-hidden="true">&times;</button></a>
+                    <h3 ng-hide="editMode"><i class="fa fa-angle-right"></i> Register </h3>
+                    <h3 ng-show="editMode"><i class="fa fa-angle-right"></i> Edit Profile </h3>
+                    <h4 class="mb"><i class="fa fa-angle-right"></i> Please input information below</h4>
+                        <div class="form-group ">
+                            <label class="col-sm-2 col-sm-2 control-label">Username</label>
+                            <div class="col-sm-10">
+                                <div ng-class="{'has-error':register.username.$error.required,'has-success':!register.username.$error.required}">
+                                <input type="text"  ng-disabled="editMode" class="form-control" name="username" placeholder="please input username"  ng-model="registerUser.username" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                        <label class="col-sm-2 col-sm-2 control-label">Password</label>
+                            <div class="col-sm-10">
+                                <div  ng-class="{'has-error':register.password.$error.required||register.password.$error.minlength,'has-success':!register.password.$error.required||register.password.$error.minlength}">
+                                    <input type="password"  class="form-control" name="password" placeholder="please input password 6-12 characters" ng-minlength="6" maxlength="12"  ng-model="registerUser.password" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-2 col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <div ng-class="{'has-error':register.name.$error.required,'has-success':!register.name.$error.required}">
+                                <input type="text" class="form-control" name="name" ng-model="registerUser.name" placeholder="please input your name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-2 col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-10">
+                                <div ng-class="{'has-error':register.lastname.$error.required,'has-success':!register.lastname.name.$error.required}">
+                                <input type="text" class="form-control" name="lastname" placeholder="please input your last name" ng-model="registerUser.lastname" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group " ng-hide="editMode" >
+                            <label class="col-sm-2 col-sm-2 control-label">Position</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="registerUser.role" required>
+                                    <option value="farmer" selected>Farm Owner</option>
+                                    <option value="farm worker">Farm Worker</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group " ng-show="registerUser.role=='farm worker'">
+                            <label class="col-sm-2 col-sm-2 control-label">Input Farm ID </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="registerUser.farmID">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-lg-2 col-sm-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <input type="email" class="form-control" ng-model="registerUser.email" >
+                                <p class="form-control-static">email@example.com</p>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                        <label class="col-sm-2 col-sm-2 control-label">Telephone Number</label>
+                             <div class="col-sm-10">
+                                <div ng-class="{'has-error':register.phoneNumber.$error.required||register.phoneNumber.$error.minlength||register.phoneNumber.$error.pattern,'has-success':!register.phoneNumber.$error.required||register.phoneNumber.$error.minlength||register.phoneNumber.$error.pattern}">
+                                 <input type="tel" class="form-control"  maxlength="10" ng-minlength="9" placeholder="please input phone number 9-10 digits" ng-pattern="/^[0-9]*$/"  name="phoneNumber" ng-model="registerUser.phoneNumber" required>
+                                </div>
+                            </div>
+                        </div>
+                    <div flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+                        <div style="margin-bottom: 10px" ng-if="registerUser.pictureDist"  class="thumbnail" ng-show="!$flow.files.length">
+                            <img width="150px" height="180px" src="{{registerUser.pictureDist}}" />
+                        </div>
+                        <div style="margin-bottom: 10px" ng-if="!registerUser.pictureDist" class="thumbnail" ng-show="!$flow.files.length">
+                            <img width="150px" height="180px" src="assets/img/noimage.png" />
+                        </div>
+                        <div  style="margin-bottom: 10px" class="thumbnail" ng-show="$flow.files.length">
+                            <img width="150px" height="180px" flow-img="$flow.files[0]"/></img>
+                        </div>
+                        <div class="col-md-8">
+                        <p>
+                        Only PNG,GIF,JPG,JEPG files allowed.
+                        </p>
+                        </div>
+                        <div class="goright col-md-4" style="margin-bottom: 10px">
+                            <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
+                            <span class="btn btn-info" ng-show="$flow.files.length"  flow-btn>Change</span>
+                             <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">
+                                 Remove
+                              </span>
+                        </div>
+
+                    </div>
+                        <button type="submit" class="btn btn-theme04 btn-lg btn-block" ng-hide="editMode" ng-click="Register($flow)" ng-disabled="register.username.$error.required||register.password.$error.required||register.lastname.$error.required||register.name.$error.required||register.phoneNumber.$error.required||register.phoneNumber.$error.minlength||register.password.$error.minlength||register.phoneNumber.$error.pattern">Register</button>
+                    <button type="submit" class="btn btn-theme04 btn-lg btn-block" ng-show="editMode" ng-click="Edit($flow)" ng-disabled="register.username.$error.required||register.password.$error.required||register.lastname.$error.required||register.name.$error.required||register.phoneNumber.$error.required||register.phoneNumber.$error.minlength||register.password.$error.minlength||register.phoneNumber.$error.pattern">Edit</button>
+                    </form>
+            </div><!-- col-lg-12-->
+        </section>
+    </section>

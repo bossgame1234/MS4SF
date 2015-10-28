@@ -9,9 +9,9 @@
 class PlotControllerTest extends TestCase{
     public function testStorePlot()
     {
-        $id = \App\Farm::where("name","like","Test 0")->first()->id;
+        $id = \App\Farm::where("name","like","TestActivityFarm")->first()->id;
         $plot= array(
-            'name'=>'Test',
+            'name'=>'test',
             'description'=>'Test plot',
             'DOB'=>'2015-07-29',
             'farm_id'=> $id
@@ -34,8 +34,8 @@ class PlotControllerTest extends TestCase{
         $this->assertNull($plotController->show(null));
     }
     public function testUpdatePlot(){
-        $id = \App\Plot::where('name','like','Test')->first()->id;
-        $farmId = \App\Farm::where("name","like","Test 0")->first()->id;
+        $id = \App\Plot::where('name','like','test')->first()->id;
+        $farmId = \App\Farm::where("name","like","TestActivityFarm")->first()->id;
         $plot= array(
             'name'=>'Test',
             'DOB'=>'2015-07-30',

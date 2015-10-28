@@ -92,7 +92,7 @@ a, a:hover, a:focus {
 
 .btn-theme {
   color: #fff;
-  background-color: #68dff0;
+  background-color: #8ABE5C;
   border-color: #48bcb4;
 }
 .btn-theme:hover,
@@ -101,7 +101,7 @@ a, a:hover, a:focus {
 .btn-theme.active,
 .open .dropdown-toggle.btn-theme {
   color: #fff;
-  background-color: #48bcb4;
+  background-color: #73A21B;
   border-color: #48bcb4;
 }
 
@@ -232,7 +232,7 @@ ul.top-menu > li > .logout {
     width: 210px;
     height: 100%;
     position: fixed;
-    background: #544415;
+    background: #816F59;
 }
 
 #sidebar h5 {
@@ -283,7 +283,7 @@ ul.sidebar-menu , ul.sidebar-menu li ul.sub{
 }
 
 ul.sidebar-menu {
-    margin-top: 75px;
+    margin-top: 90px;
 }
 
 #sidebar > ul > li > ul.sub {
@@ -325,7 +325,7 @@ ul.sidebar-menu li ul.sub li a:hover {
 }
 
 ul.sidebar-menu li ul.sub li.active a {
-    color: #68dff0;
+    color: #FFF;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
@@ -350,7 +350,7 @@ ul.sidebar-menu li a span{
 }
 
 ul.sidebar-menu li a{
-    color: #aeb2b7;
+    color: #F4EBDA;
     text-decoration: none;
     display: block;
     padding: 15px 0 15px 10px;
@@ -364,7 +364,7 @@ ul.sidebar-menu li a{
 }
 
 ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
-    background: #A7A18F;
+    background: #ED5565 none repeat scroll 0% 0%;
     color: #fff;
     display: block;
 
@@ -413,13 +413,13 @@ ul.sidebar-menu li a.active i {
 }
 
 .black-bg {
-    background: #4AA226;
+    background: #8ABE5C;
     border-bottom: 1px solid #1F5F1F;
 }
 
 .wrapper {
     display: inline-block;
-    margin-top: 60px;
+    margin-top: 90px;
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 15px;
@@ -1186,10 +1186,10 @@ PANELS CONFIGURATIONS
 
 /* Weather 2 */
 .weather-2 {
-	background: #e9f0f4;
+	background: #FFF;
 }
 .weather-2 .weather-2-header {
-	background: #54bae6;
+	background: #ECC24B;
 	padding-top: 5px;
 	margin-bottom: 5px;
 }
@@ -1747,7 +1747,6 @@ label {
 }
 
 .form-horizontal.style-form .form-group {
-	border-bottom: 1px solid #eff2f7;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
 }
@@ -1759,7 +1758,7 @@ label {
 
 @media (min-width: 768px) {
 		.form-horizontal .control-label {
-		text-align: left;
+		text-align: right;
 	}
 }
 
@@ -1936,7 +1935,7 @@ label {
 	margin: 0;
 	padding: 25px 20px;
 	text-align: center;
-	background: #68dff0;
+	background:#8ABE5C none repeat scroll 0% 0%;
 	border-radius: 5px 5px 0 0;
 	-webkit-border-radius: 5px 5px 0 0;
 	color: #fff;
@@ -2239,5 +2238,7 @@ label {
 .site-min-height {
     min-height: 900px;
 }
-
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: #F6C47D;
+}
 

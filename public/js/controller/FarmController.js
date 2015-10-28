@@ -7,7 +7,10 @@ var farmMainController = angular.module('farmMainController',['farmServices','ui
 
 farmMainController.controller('showFarmController',['$scope','$http','$location','$rootScope','$route', '$routeParams','farmService',function($scope,$http,$location, $rootScope,$route,$routeParams,farmService)
 {
-        var data = farmService.query(function(){
+    if($rootScope.User==null){
+        $location.path("login");
+    }
+        var data = farmService.query({'username': $rootScope.User.username},function(){
             $scope.farms = data;
         },function(error) {
             alert("There is a problem! Your request has not been fulfilled, please try again");
@@ -16,7 +19,7 @@ farmMainController.controller('showFarmController',['$scope','$http','$location'
        $scope.deleteFarm = function(id) {
            var answer = confirm("Do you want to delete the farm? \n*removing the farm will also remove its plots,plant,and devices");
            if (answer) {
-               farmService.delete({id:id},function () {
+               farmService.delete({id:id,username: $rootScope.User.username},function () {
                    alert("Success");
                    $route.reload();
                }, function (error) {
@@ -31,22 +34,38 @@ farmMainController.controller('showFarmController',['$scope','$http','$location'
         $rootScope.DeviceId = null;
         $rootScope.Device_id = null;
         $rootScope.SelectedDevice = false;
+           $rootScope.Latitude = 0;
+           $rootScope.Longitude = 0;
+           $rootScope.PlantId = null;
+           $rootScope.plantName = null;
+           $rootScope.SelectedPlant = false;
         if($rootScope.FarmId==id){
             $rootScope.FarmName = null;
             $rootScope.FarmId = null;
             $rootScope.SelectedFarm = false;
+            $rootScope.Latitude = 0;
+            $rootScope.Longitude = 0;
+
         }else {
             $rootScope.FarmName = name;
             $rootScope.FarmId = id;
             $rootScope.SelectedFarm = true;
+            $http.get("farm/" + id).success(function (data) {
+                $rootScope.Latitude = data.latitude;
+                $rootScope.Longitude = data.longitude;
+            })
         }
         }
 }]);
 farmMainController.controller('addFarmController',['$scope', '$http','$timeout','uiGmapLogger','rndAddToLatLon','uiGmapGoogleMapApi','$location', '$rootScope','farmService',
     function ($scope, $http,$timeout, $log, rndAddToLatLon,GoogleMapApi,$location, $rootScope,farmService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         $scope.addFarm = true;
         $scope.editFarm = false;
-        $scope.farm = {latitude:'',longitude:'',description:'',name:'',address:''};
+        $scope.farm = {latitude:'',longitude:'',description:'',name:'',address:'',username:''};
+        $scope.farm.username = $rootScope.User.username;
         $scope.addFarm =function(){
         farmService.save($scope.farm,function(data) {
             alert("success");
@@ -200,6 +219,9 @@ farmMainController.controller('addFarmController',['$scope', '$http','$timeout',
             }]);
 farmMainController.controller('editFarmController',['$scope', '$routeParams', '$http','$timeout','uiGmapLogger','rndAddToLatLon','uiGmapGoogleMapApi','$location', '$rootScope','farmService',
     function ($scope,$routeParams, $http,$timeout, $log, rndAddToLatLon,GoogleMapApi,$location, $rootScope,farmService) {
+        if($rootScope.User==null){
+            $location.path("login");
+        }
         $scope.editFarm = true;
         $scope.addFarm = false;
         $scope.farm = {latitude:'',longitude:'',description:'',name:'',address:''};
@@ -271,6 +293,10 @@ farmMainController.controller('editFarmController',['$scope', '$routeParams', '$
         $scope.editFarm =function() {
             var answer = confirm("Do you want to update the farm?");
             if (answer) {
+                if(($scope.farm.latitude&&$scope.farms.longitude)!=null) {
+                    $rootScope.Latitude = $scope.farm.latitude;
+                    $rootScope.Longitude = $scope.farms.longitude;
+                }
                 farmService.update({id: $scope.farm.id}, $scope.farm, function (data) {
                         alert("success");
                         $location.path("showFarmList");
@@ -287,6 +313,7 @@ farmMainController.controller('viewFarmController',['$scope', '$routeParams', '$
         $rootScope.plotManagement = true;
         $http.get("farm/" + $rootScope.FarmId).success(function (data) {
                 $scope.farm = data;
+                $scope.encoding = data.id*100+1+2*10000+3*100000;
                 GoogleMapApi.then(function(maps) {
                     angular.extend($scope, {
                         map: {

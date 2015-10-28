@@ -52,8 +52,9 @@ class FarmControllerTest extends TestCase{
     public function testDestroyFarm(){
         $id = \App\Farm::where("name","like","test")->first()->id;
         $farmController = new \App\Http\Controllers\farmController();
-        $farmController->destroy($id);
+       $request = new \Illuminate\Http\Request();
+        $farmController->destroy($id,$request);
         $this->assertNull($farmController->show($id));
-        $this->assertNull($farmController->destroy(null));
+        $this->assertNull($farmController->destroy(null,$request));
     }
 }
