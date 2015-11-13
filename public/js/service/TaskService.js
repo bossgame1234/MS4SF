@@ -4,7 +4,7 @@
 'use strict';
 var taskService = angular.module('taskServices',['ngResource']);
 taskService.factory('taskService',function($resource){
-    return $resource('task/:id', { id: '@_id' }, {
+    return $resource('index.php/task/:id', { id: '@_id' }, {
         update: {
             method: 'PUT' // this method issues a PUT request
         }});

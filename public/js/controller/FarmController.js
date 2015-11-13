@@ -50,7 +50,7 @@ farmMainController.controller('showFarmController',['$scope','$http','$location'
             $rootScope.FarmName = name;
             $rootScope.FarmId = id;
             $rootScope.SelectedFarm = true;
-            $http.get("farm/" + id).success(function (data) {
+            $http.get("index.php/farm/" + id).success(function (data) {
                 $rootScope.Latitude = data.latitude;
                 $rootScope.Longitude = data.longitude;
             })
@@ -228,7 +228,7 @@ farmMainController.controller('editFarmController',['$scope', '$routeParams', '$
         var id = $routeParams.id;
         var x = null;
         var y = null;
-        $http.get("farm/" + id).success(function (data) {
+        $http.get("index.php/farm/" + id).success(function (data) {
              x = data.latitude;
               y = data.longitude;
             $scope.farm = data;
@@ -311,7 +311,7 @@ farmMainController.controller('viewFarmController',['$scope', '$routeParams', '$
     function ($scope,$routeParams, $http,$timeout, $log, rndAddToLatLon,GoogleMapApi,$location, $rootScope,farmService) {
         $rootScope.FarmId = $routeParams.id;
         $rootScope.plotManagement = true;
-        $http.get("farm/" + $rootScope.FarmId).success(function (data) {
+        $http.get("index.php/farm/" + $rootScope.FarmId).success(function (data) {
                 $scope.farm = data;
                 $scope.encoding = data.id*100+1+2*10000+3*100000;
                 GoogleMapApi.then(function(maps) {

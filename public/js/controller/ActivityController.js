@@ -30,13 +30,13 @@ activityMainController.controller('addActivityController',['$scope', '$routePara
             showMeridian: false,
             defaultTime: false
        });
-        $http.get("plot/" + $rootScope.FarmId+"/edit").success(function (data) {
+        $http.get("index.php/plot/" + $rootScope.FarmId+"/edit").success(function (data) {
         $scope.plots = data;
         $scope.loadPlot = true;
         });
 
         $scope.savePlotID = function(id) {
-                $http.get("plant/" + id + "/edit").success(function (data) {
+                $http.get("index.php/plant/" + id + "/edit").success(function (data) {
                     $scope.plants = data;
                     $scope.loadPlant = true;
                 });
@@ -47,7 +47,7 @@ activityMainController.controller('addActivityController',['$scope', '$routePara
         $http.jsonp(url, { params : {
             lat : $rootScope.Latitude.toString(),
             lon : $rootScope.Longitude.toString(),
-            appid : "bd82977b86bf27fb59a04b61b657fb6f",
+            appid : "bcc93ef623451d89172784421e454ee0",
             callback: 'JSON_CALLBACK'
         }}).
             success(function(data, status, headers, config) {
@@ -156,7 +156,7 @@ activityMainController.controller('editActivityController', ['$scope', '$http', 
             showMeridian: false,
             defaultTime: false
         });
-        $http.get('activity/'+$routeParams.id).success(function(data){
+        $http.get('index.php/activity/'+$routeParams.id).success(function(data){
             $scope.activity = data;
          //   $scope.activity.date =  $filter('date')(data.date,"MM/dd/yyyy");
             $scope.activity.type = new Array();
@@ -302,7 +302,7 @@ activityMainController.controller('timeLineActivityController', ['$scope', '$htt
         $scope.set = new Array();
         $scope.icon = new Array();
         $scope.toDay =  $filter('date')(new Date(),"yyyy-MM-dd");
-         $http.get('activity?farmID='+$rootScope.FarmId).success(function(data){
+         $http.get('index.php/activity?farmID='+$rootScope.FarmId).success(function(data){
              $scope.activities = data;
              $scope.deleteActivity  =function(activityID){
                  var answer = confirm("Do you want to delete the activity?");

@@ -4,7 +4,7 @@
 'use strict';
 var plotService = angular.module('plotServices',['ngResource']);
 plotService.factory('plotService',function($resource){
-    return $resource('plot/:id', { id: '@_id' }, {
+    return $resource('index.php/plot/:id', { id: '@_id' }, {
         update: {
             method: 'PUT' // this method issues a PUT request
         }});

@@ -9,7 +9,7 @@ deviceMainController.controller('listDeviceController', ['$scope', '$routeParams
         if($rootScope.User==null){
             $location.path("login");
         }
-        $http.get("device").success(function (data) {
+        $http.get("index.php/device").success(function (data) {
             $scope.devices = data;
         });
         $scope.newDevice ={device_id:''};
@@ -35,7 +35,7 @@ deviceMainController.controller('listDeviceController', ['$scope', '$routeParams
 
         $scope.addDevice = function() {
             deviceService.save($scope.newDevice, function (data) {
-                    $http.get("device/access/"+$scope.newDevice.device_id).success(function (data) {
+                    $http.get("index.php/device/access/"+$scope.newDevice.device_id).success(function (data) {
                         alert("success");
                         $route.reload();
                     }, function (error) {
@@ -52,14 +52,14 @@ deviceMainController.controller('PlotWithDeviceController',['$scope','$routePara
         if($rootScope.User==null){
             $location.path("login");
         }
-        $http.get("device/"+$rootScope.plotId+"/edit").success(function (data) {
+        $http.get("index.php/device/"+$rootScope.plotId+"/edit").success(function (data) {
             $scope.devices = data;
         });
         $scope.deviceP ={device_id:''};
         $scope.deleteDevice = function(id){
             var answer = confirm("Do you want to delete the sensingDevice from plot?");
             if (answer) {
-                $http.get("device/destroy/"+id).success(function () {
+                $http.get("index.php/device/destroy/"+id).success(function () {
                     alert("Deleted");
                     $route.reload();
                 }).
@@ -163,48 +163,48 @@ deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$
                 $scope.showGraph();
             }
         };
-        $http.get("sensor/"+id).success(function(data){
+        $http.get("index.php/sensor/"+id).success(function(data){
             $scope.SensorID = data.id;
             $rootScope.showSensor = true;
-            $http.get("lightSummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/lightSummary/"+$scope.SensorID).success(function(data){
                 $scope.light = data;
             });
-            $http.get("humiditySummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/humiditySummary/"+$scope.SensorID).success(function(data){
                 $scope.humidity = data;
             });
-            $http.get("soilMoistureSummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/soilMoistureSummary/"+$scope.SensorID).success(function(data){
                 $scope.soilMoisture = data;
             });
-            $http.get("temperatureSummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/temperatureSummary/"+$scope.SensorID).success(function(data){
                 $scope.temperature = data;
             });
-            $http.get("daily/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/daily/"+$scope.SensorID).success(function(data){
                 $scope.hours = data;
             });
-            $http.get("currentEnvironmentValue/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/currentEnvironmentValue/"+$scope.SensorID).success(function(data){
                 $scope.current = data;
             });
         });
     $interval(function(){
-    $http.get("sensor/"+id).success(function(data){
+    $http.get("index.php/sensor/"+id).success(function(data){
         $scope.SensorID = data.id;
         $rootScope.showSensor = true;
-        $http.get("lightSummary/"+$scope.SensorID).success(function(data){
+        $http.get("index.php/lightSummary/"+$scope.SensorID).success(function(data){
             $scope.light = data;
         });
-        $http.get("humiditySummary/"+$scope.SensorID).success(function(data){
+        $http.get("index.php/humiditySummary/"+$scope.SensorID).success(function(data){
             $scope.humidity = data;
         });
-        $http.get("soilMoistureSummary/"+$scope.SensorID).success(function(data){
+        $http.get("index.php/soilMoistureSummary/"+$scope.SensorID).success(function(data){
             $scope.soilMoisture = data;
         });
-        $http.get("temperatureSummary/"+$scope.SensorID).success(function(data){
+        $http.get("index.php/temperatureSummary/"+$scope.SensorID).success(function(data){
             $scope.temperature = data;
         });
-        $http.get("daily/"+$scope.SensorID).success(function(data){
+        $http.get("index.php/daily/"+$scope.SensorID).success(function(data){
             $scope.hours = data;
         });
-        $http.get("currentEnvironmentValue/"+$scope.SensorID).success(function(data){
+        $http.get("index.php/currentEnvironmentValue/"+$scope.SensorID).success(function(data){
             $scope.current = data;
         });
         $scope.showGraph();
@@ -352,22 +352,22 @@ deviceMainController.controller('sensorMonitoringWeeklySummaryController',['$sco
             $scope.description3 = "min soil moisture";
             $scope.showGraph();
         };
-        $http.get("sensor/"+id).success(function(data){
+        $http.get("index.php/sensor/"+id).success(function(data){
             $scope.SensorID = data.id;
             $scope.showSensor = true;
-            $http.get("lightWeeklySummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/lightWeeklySummary/"+$scope.SensorID).success(function(data){
                 $scope.light = data;
             });
-            $http.get("humidityWeeklySummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/humidityWeeklySummary/"+$scope.SensorID).success(function(data){
                 $scope.humidity = data;
             });
-            $http.get("soilMoistureWeeklySummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/soilMoistureWeeklySummary/"+$scope.SensorID).success(function(data){
                 $scope.soilMoisture = data;
             });
-            $http.get("temperatureWeeklySummary/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/temperatureWeeklySummary/"+$scope.SensorID).success(function(data){
                 $scope.temperature = data;
             });
-            $http.get("weekly/"+$scope.SensorID).success(function(data){
+            $http.get("index.php/weekly/"+$scope.SensorID).success(function(data){
                 $scope.dailys = data;
 
             });

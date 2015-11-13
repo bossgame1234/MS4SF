@@ -28,11 +28,11 @@ taskMainController.controller('addTaskController',['$scope', '$http','$location'
             showMeridian: false,
             defaultTime: false
         });
-        $http.get("plot/" + $rootScope.FarmId+"/edit").success(function (data) {
+        $http.get("index.php/plot/" + $rootScope.FarmId+"/edit").success(function (data) {
             $scope.plots = data;
             $scope.loadPlot = true;
         });
-        $http.get("allMember?id=" + $rootScope.FarmId).success(function (data) {
+        $http.get("index.php/allMember?id=" + $rootScope.FarmId).success(function (data) {
             $scope.members = data;
             if( $scope.members!=undefined) {
             for(var i=0;i<$scope.members.length;i++)
@@ -45,7 +45,7 @@ taskMainController.controller('addTaskController',['$scope', '$http','$location'
             }
         });
         $scope.savePlotID = function(id) {
-            $http.get("plant/" + id + "/edit").success(function (data) {
+            $http.get("index.php/plant/" + id + "/edit").success(function (data) {
                 $scope.plants = data;
                 $scope.loadPlant = true;
             });
@@ -179,11 +179,11 @@ taskMainController.controller('editTaskController', ['$scope', '$http', '$routeP
             showMeridian: false,
             defaultTime: false
         });
-        $http.get("plot/" + $rootScope.FarmId+"/edit").success(function (data) {
+        $http.get("index.php/plot/" + $rootScope.FarmId+"/edit").success(function (data) {
             $scope.plots = data;
             $scope.loadPlot = true;
         });
-        $http.get("allMember?id=" + $rootScope.FarmId).success(function (data) {
+        $http.get("index.php/allMember?id=" + $rootScope.FarmId).success(function (data) {
             $scope.members = data;
             if( $scope.members!=undefined) {
                 for(var i=0;i<$scope.members.length;i++)
@@ -196,12 +196,12 @@ taskMainController.controller('editTaskController', ['$scope', '$http', '$routeP
             }
         });
         $scope.savePlotID = function(id) {
-            $http.get("plant/" + id + "/edit").success(function (data) {
+            $http.get("index.php/plant/" + id + "/edit").success(function (data) {
                 $scope.plants = data;
                 $scope.loadPlant = true;
             });
         };
-        $http.get('task/'+$routeParams.id).success(function(data){
+        $http.get('index.php/task/'+$routeParams.id).success(function(data){
             $scope.task= data;
             $scope.task.worker = new Array();
             $scope.name = new Array();
@@ -390,7 +390,7 @@ taskMainController.controller('timeLineTaskController', ['$scope', '$http', '$ro
         $scope.set = new Array();
         $scope.icon = new Array();
         $scope.toDay =  $filter('date')(new Date(),"yyyy-MM-dd");
-        $http.get('taskList?id='+$rootScope.User.id).success(function(data){
+        $http.get('index.php/taskList?id='+$rootScope.User.id).success(function(data){
             $scope.taskList = data[0].task_list;
             for(var i=0;i<data[0].task_list.length;i++) {
                     $scope.check = true;
@@ -478,7 +478,7 @@ taskMainController.controller('timeLineTaskController', ['$scope', '$http', '$ro
 
                 };
                 $scope.acceptTask = function (id, status) {
-                    $http.post("status", {id: id, status: status}).success(function (data) {
+                    $http.post("index.php/status", {id: id, status: status}).success(function (data) {
                         alert("Success");
                         $route.reload();
                     }).error(function (error) {
@@ -486,7 +486,7 @@ taskMainController.controller('timeLineTaskController', ['$scope', '$http', '$ro
                     })
                 };
                 $scope.finishTask = function (id, status) {
-                    $http.post("status", {id: id, status: status}).success(function (data) {
+                    $http.post("index.php/status", {id: id, status: status}).success(function (data) {
                         alert("Success");
                         $route.reload();
                     }).error(function (error) {
@@ -521,7 +521,7 @@ taskMainController.controller('overAllTaskController',['$scope','$routeParams','
         if($rootScope.User==null){
             $location.path("login");
         }
-        $http.get("allMember?id=" + $rootScope.FarmId).success(function (data) {
+        $http.get("index.php/allMember?id=" + $rootScope.FarmId).success(function (data) {
             $scope.members = data;
             if( $scope.members!=undefined) {
                 for(var i=0;i<$scope.members.length;i++)
@@ -533,11 +533,11 @@ taskMainController.controller('overAllTaskController',['$scope','$routeParams','
                 $scope.loadMember = true;
             }
         });
-        $http.get("top3?id=" + $rootScope.FarmId).success(function (data) {
+        $http.get("index.php/top3?id=" + $rootScope.FarmId).success(function (data) {
             $scope.tops = data;
         });
         var id=   $rootScope.FarmId;
-        $http.get("task?id="+id).success(function(data){
+        $http.get("index.php/task?id="+id).success(function(data){
         $scope.tasks = data;
         for(var i=0;i<$scope.tasks.length;i++){
             if($scope.tasks[i].status=="Remaining"){

@@ -54,7 +54,7 @@ userMainController.controller('logoutController',['$http','$scope','$rootScope',
 }]);
 
 userMainController.controller('viewProfileListController',['$http','$scope','$rootScope','$location','userService',function($http,$scope,$rootScope,$location,userService){
-    $http.get("api/user?farmID="+$rootScope.farm_id).success(function(data){
+    $http.get("index.php/api/user?farmID="+$rootScope.farm_id).success(function(data){
         if($rootScope.User==null){
             $location.path("login");
         }
@@ -64,14 +64,14 @@ userMainController.controller('viewProfileListController',['$http','$scope','$ro
     })
 }]);
 userMainController.controller('viewOwnProfileController',['$http','$scope','$rootScope','activityService','$route',function($http,$scope,$rootScope,activityService,$route){
-    $http.get("api/user/member?id=" + $rootScope.User.id).success(function (data) {
+    $http.get("index.php/api/user/member?id=" + $rootScope.User.id).success(function (data) {
         if($rootScope.User==null){
             $location.path("login");
         }
         $scope.ownProfile = true;
         $scope.member = data;
         if($scope.member!=undefined) {
-            $http.get('taskList?id=' + $scope.member.id).success(function (data) {
+            $http.get('index.php/taskList?id=' + $scope.member.id).success(function (data) {
                 $scope.taskList = data[0].task_list;
                 $scope.taskDone = 0;
                 $scope.taskLate = 0;
@@ -98,10 +98,10 @@ userMainController.controller('viewMemberProfileController',['$http','$scope','$
         $location.path("login");
     }
     $scope.ownProfile = false;
-    $http.get("api/user/member?id=" + id).success(function (data) {
+    $http.get("index.php/api/user/member?id=" + id).success(function (data) {
         $scope.member = data;
         if($scope.member!=undefined) {
-            $http.get('taskList?id=' + $scope.member.id).success(function (data) {
+            $http.get('index.php/taskList?id=' + $scope.member.id).success(function (data) {
                 $scope.taskList = data[0].task_list;
                 $scope.taskDone = 0;
                 $scope.taskLate = 0;
@@ -124,7 +124,7 @@ userMainController.controller('viewMemberProfileController',['$http','$scope','$
 }]);
 
 userMainController.controller('editProfileController',['$http','$scope','$rootScope','$location','userService','$routeParams','$route',function($http,$scope,$rootScope,$location,userService,$routeParams,$route){
-    $http.get("api/user/member?username=" + $rootScope.User.username).success(function (data) {
+    $http.get("index.php/api/user/member?username=" + $rootScope.User.username).success(function (data) {
         $scope.registerUser = data;
     });
     $scope.editMode = true;

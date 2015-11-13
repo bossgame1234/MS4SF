@@ -9,7 +9,7 @@ plantMainController.controller('listPlantController', ['$scope', '$http','$route
         if($rootScope.User==null){
             $location.path("login");
         }
-        $http.get("plant/" + $rootScope.plotId+"/edit").success(function (data) {
+        $http.get("index.php/plant/" + $rootScope.plotId+"/edit").success(function (data) {
             $scope.plants = data;
         });
         $scope.deletePlant = function(id){
@@ -65,7 +65,7 @@ plantMainController.controller('editPlantController', ['$scope', '$http', '$rout
         $scope.addPlant = false;
         $scope.editPlant = true;
         var id = $routeParams.id;
-        $http.get("plant/" + id).success(function (data) {
+        $http.get("index.php/plant/" + id).success(function (data) {
             $scope.plant = data;
             $scope.plant.DOB = new Date(data.DOB);
         });
@@ -91,7 +91,7 @@ plantMainController.controller('viewPlantController', ['$scope', '$http', '$rout
         }
         $rootScope.plantID = $routeParams.id;
         var id = $routeParams.id;
-        $http.get("plant/" + id).success(function (data) {
+        $http.get("index.php/plant/" + id).success(function (data) {
             $scope.plant = data;
         });
     }]);

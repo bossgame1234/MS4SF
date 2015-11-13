@@ -9,7 +9,7 @@ plotMainController.controller('listPlotController', ['$scope', '$http','$route',
         if($rootScope.User==null){
             $location.path("login");
         }
-        $http.get("plot/" + $rootScope.FarmId+"/edit").success(function (data) {
+        $http.get("index.php/plot/" + $rootScope.FarmId+"/edit").success(function (data) {
             $scope.plots = data;
         });
         $scope.deletePlot = function(id){
@@ -71,7 +71,7 @@ plotMainController.controller('editPlotController', ['$scope', '$http', '$routeP
         $scope.addPlot = false;
         $scope.editPlot = true;
         var id = $routeParams.id;
-        $http.get("plot/" + id).success(function (data) {
+        $http.get("index.php/plot/" + id).success(function (data) {
             $scope.plot = data;
             $scope.plot.DOB = new Date(data.DOB);
         });
@@ -98,7 +98,7 @@ plotMainController.controller('viewPlotController', ['$scope', '$http', '$routeP
         }
         var id = $routeParams.id;
         $rootScope.plotId = id;
-        $http.get("plot/" + id).success(function (data) {
+        $http.get("index.php/plot/" + id).success(function (data) {
             $scope.plot = data;
         });
     }]);

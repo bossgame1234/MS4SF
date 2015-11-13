@@ -27,7 +27,7 @@ function($http,$auth,$rootScope,$location,$timeout) {
         // Use Satellizer's $auth service to login
         $auth.login(credentials).then(function(data) {
             // If login is successful, redirect to the users state
-            $http.get("api/user/member?username=" + data.config.data.username).success(function (data) {
+            $http.get("index.php/api/user/member?username=" + data.config.data.username).success(function (data) {
                $rootScope.User = data;
                 if ($rootScope.User == undefined) {
                 } else {
