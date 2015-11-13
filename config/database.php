@@ -54,10 +54,10 @@ return [
 
 		'mysql' => [
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => 'http://projectlinux.cloudapp.net',
 			'database'  =>  'ms4sf',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => '1234',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
