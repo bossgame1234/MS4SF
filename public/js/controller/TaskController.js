@@ -146,7 +146,7 @@ taskMainController.controller('addTaskController',['$scope', '$http','$location'
         };
         $scope.addTask = function(flowFiles){
             taskService.save($scope.task,function(data){
-                flowFiles.opts.target = 'uploadPicture';
+                flowFiles.opts.target = 'index.php/uploadPicture';
                 flowFiles.opts.testChunks = false;
                 flowFiles.opts.query ={id:data.id,mode:'task'};
                 flowFiles.upload();
@@ -256,7 +256,7 @@ taskMainController.controller('editTaskController', ['$scope', '$http', '$routeP
             var answer = confirm("Do you want to update task?");
             if(answer) {
                 taskService.update({id: $scope.task.id}, $scope.task, function (data) {
-                    flowFiles.opts.target = 'uploadPicture';
+                    flowFiles.opts.target = 'index.php/uploadPicture';
                     flowFiles.opts.testChunks = false;
                     flowFiles.opts.query = {id: data.id, mode: 'task'};
                     flowFiles.upload();

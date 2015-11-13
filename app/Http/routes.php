@@ -31,7 +31,7 @@ Route::group(['prefix' => 'api'], function()
 });
 Route::get('allMember','userController@getAllMember');
 Route::get('taskList','TaskListController@getTaskList');
-Route::get('top3    ','userController@getTop3Farm');
+Route::get('top3','userController@getTop3Farm');
 Route::post('status','TaskListController@workingStatus');
 Route::get('device/destroy/{id}','sensingDeviceController@removePlotFromDevice');
 Route::get('lightSummary/{id}','dailyController@getLightDailySummary');

@@ -124,7 +124,7 @@ activityMainController.controller('addActivityController',['$scope', '$routePara
        $scope.addActivity = function(flowFiles){
            console.log($scope.activity.date);
            activityService.save($scope.activity,function(data){
-               flowFiles.opts.target = 'uploadPicture';
+               flowFiles.opts.target = 'index.php/uploadPicture';
                flowFiles.opts.testChunks = false;
                flowFiles.opts.query ={id:data.id,mode:'activity'};
                flowFiles.upload();
@@ -203,7 +203,7 @@ activityMainController.controller('editActivityController', ['$scope', '$http', 
             var answer = confirm("Do you want to update activity?");
             if(answer) {
                 activityService.update({id: $scope.activity.id}, $scope.activity, function (data) {
-                    flowFiles.opts.target = 'uploadPicture';
+                    flowFiles.opts.target = 'index.php/uploadPicture';
                     flowFiles.opts.testChunks = false;
                     flowFiles.opts.query = {id: data.id, mode: 'activity'};
                     flowFiles.upload();

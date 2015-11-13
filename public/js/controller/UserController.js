@@ -12,7 +12,7 @@ var userMainController = angular.module('userMainController',['userMainServices'
         };
         $scope.Register = function(flowFiles){
             userService.save($scope.registerUser,function(data){
-                    flowFiles.opts.target = 'uploadPicture';
+                    flowFiles.opts.target = 'index.php/uploadPicture';
                     flowFiles.opts.testChunks = false;
                     flowFiles.opts.query ={id:data.id,mode:'register'};
                     flowFiles.upload();
@@ -136,7 +136,7 @@ userMainController.controller('editProfileController',['$http','$scope','$rootSc
       if(answer) {
           userService.update($scope.registerUser, function (data) {
               $rootScope.User = $scope.registerUser;
-              flowFiles.opts.target = 'uploadPicture';
+              flowFiles.opts.target = 'index.php/uploadPicture';
               flowFiles.opts.testChunks = false;
               flowFiles.opts.query = {id: data.id, mode: 'register'};
               flowFiles.upload();
