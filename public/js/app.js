@@ -31,7 +31,7 @@ var app =  angular.module('ms4sf',[
     });
 app.config(['$routeProvider','$authProvider',
     function($routeProvider, $authProvider) {
-        $authProvider.loginUrl = 'api/authenticate';
+        $authProvider.loginUrl = 'MS4SF/public/index.php/api/authenticate';
             $routeProvider.
                 when('/showFarmList', {
                     templateUrl: 'view/farmList.html',

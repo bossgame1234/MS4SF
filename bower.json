@@ -13,10 +13,12 @@
     "filesize": "~3.1.2",
     "swiper": "~3.0.8",
     "angular-cookies": "~1.2.x",
-    "angular-google-maps" : "~2.1.7",
+    "angular-google-maps" : "~2.1.6",
     "angular-google-chart" : "~x.x.x",
     "satellizer" : "~x.x.x",
     "angular-ui-router" : "~x.x.x",
-    "ng-flow":"~2"
+    "ng-flow":"~2",
+    "angular-sanitize" : "~x.x.x",
+    "angular-scroll-animate" : "~x.x.x"
   }
 }
