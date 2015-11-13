@@ -32,7 +32,7 @@ var userMainController = angular.module('userMainController',['userMainServices'
     }]);
 userMainController.controller('logoutController',['$http','$scope','$rootScope','$location',function($http,$scope,$rootScope,$location){
     $scope.logout = function() {
-        $.backstretch("assets/img/loadingScreen.jpg", {speed: 500});
+        $.backstretch('assets/img/768.png', {speed: 500,opacity: 1.0});
         delete ($rootScope.User);
         delete ($rootScope.PlotName);
         delete ($rootScope.plotId);
@@ -49,7 +49,7 @@ userMainController.controller('logoutController',['$http','$scope','$rootScope',
         delete ($rootScope.PlantId);
         delete ($rootScope.SelectedPlant);
         delete ($rootScope.SelectedFarm);
-        $location.url("farm-scenery.svg");
+        $location.path("login");
     }
 }]);
 
@@ -70,6 +70,25 @@ userMainController.controller('viewOwnProfileController',['$http','$scope','$roo
         }
         $scope.ownProfile = true;
         $scope.member = data;
+        if($scope.member!=undefined) {
+            $http.get('taskList?id=' + $scope.member.id).success(function (data) {
+                $scope.taskList = data[0].task_list;
+                $scope.taskDone = 0;
+                $scope.taskLate = 0;
+                for (var i = 0; i < $scope.taskList.length; i++) {
+                    if ($scope.taskList[i].status == "Done") {
+                        $scope.taskDone++;
+                    } else if ($scope.taskList[i].status == "Late done") {
+                        $scope.taskLate++;
+                    }
+                }
+                $scope.taskSum = $scope.taskLate + $scope.taskDone;
+                $scope.percentTaskDone = ($scope.taskDone * 100) / $scope.taskSum;
+                $scope.percentTaskLate = ($scope.taskLate * 100) / $scope.taskSum;
+                $scope.taskDoneStyle = {width: $scope.percentTaskDone + '%'};
+                $scope.taskLateStyle = {width: $scope.percentTaskLate + '%'};
+            });
+        }
         $scope.User.pictureDist = data.pictureDist ;
     });
 }]);
@@ -81,10 +100,27 @@ userMainController.controller('viewMemberProfileController',['$http','$scope','$
     $scope.ownProfile = false;
     $http.get("api/user/member?id=" + id).success(function (data) {
         $scope.member = data;
-        if($scope.member.role){
-            $scope.member.role.charAt(0).big();
+        if($scope.member!=undefined) {
+            $http.get('taskList?id=' + $scope.member.id).success(function (data) {
+                $scope.taskList = data[0].task_list;
+                $scope.taskDone = 0;
+                $scope.taskLate = 0;
+                for (var i = 0; i < $scope.taskList.length; i++) {
+                    if ($scope.taskList[i].status == "Done") {
+                        $scope.taskDone++;
+                    } else if ($scope.taskList[i].status == "Late done") {
+                        $scope.taskLate++;
+                    }
+                }
+                $scope.taskSum = $scope.taskLate + $scope.taskDone;
+                $scope.percentTaskDone = ($scope.taskDone * 100) / $scope.taskSum;
+                $scope.percentTaskLate = ($scope.taskLate * 100) / $scope.taskSum;
+                $scope.taskDoneStyle = {width: $scope.percentTaskDone + '%'};
+                $scope.taskLateStyle = {width: $scope.percentTaskLate + '%'};
+            });
         }
     });
+
 }]);
 
 userMainController.controller('editProfileController',['$http','$scope','$rootScope','$location','userService','$routeParams','$route',function($http,$scope,$rootScope,$location,userService,$routeParams,$route){

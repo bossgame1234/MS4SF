@@ -11,4 +11,7 @@ class Plant extends Model
     public function plot(){
         return $this->belongsTo('App\plot');
     }
+    public function taskList(){
+        return $this->hasMany('App\TaskList');
+    }
 }

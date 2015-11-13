@@ -29,6 +29,10 @@ Route::group(['prefix' => 'api'], function()
     Route::get('user/member','userController@getMemberProfile');
     Route::put('user','userController@updateProfile');
 });
+Route::get('allMember','userController@getAllMember');
+Route::get('taskList','TaskListController@getTaskList');
+Route::get('top3    ','userController@getTop3Farm');
+Route::post('status','TaskListController@workingStatus');
 Route::get('device/destroy/{id}','sensingDeviceController@removePlotFromDevice');
 Route::get('lightSummary/{id}','dailyController@getLightDailySummary');
 Route::get('humiditySummary/{id}','dailyController@getHumidityDailySummary');
@@ -39,11 +43,11 @@ Route::get('humidityWeeklySummary/{id}','weeklyController@getHumidityWeeklySumma
 Route::get('soilMoistureWeeklySummary/{id}','weeklyController@getSoilMoistureWeeklySummary');
 Route::get('temperatureWeeklySummary/{id}','weeklyController@getTemperatureWeeklySummary');
 Route::get('currentEnvironmentValue/{id}','sensorController@getCurrentEnvironmentValue');
-
 //not yet
 Route::post('uploadPicture','FileUploadController@upload');
 
 //farm CRUD route
+Route::resource('task','taskListController');
 Route::resource('activity','activityController');
 Route::resource('farm','farmController');
 Route::resource('plot','plotController');

@@ -18,8 +18,55 @@
                         <img ng-if="!member.pictureDist" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle" height="180px" width="150px"  style="border:1px solid black;" ></p>
                 </div>
             </div>
+
             </div>
         </div>
+            <div class="col-md-12 detailed" ng-hide="member.role=='farmer'">
+                <h4>User Stats</h4>
+                <div class="row centered mt mb">
+                    <div class="col-sm-6">
+                        <h1><i class="fa fa-thumbs-up"></i></h1>
+                        <h3>{{taskDone}}</h3>
+                        <h6>ACTIVITY DONE ON TIME</h6>
+                    </div>
+                    <div class="col-sm-6">
+                        <h1><i class="fa fa-thumbs-down"></i></h1>
+                        <h3>{{taskLate}}</h3>
+                        <h6>ACTIVITY DONE LATE</h6>
+                    </div>
+                    <table  class="col-lg-8 col-lg-push-3 col-lg-pull-1">
+                    <tr >
+                        <th class="col-lg-4 profile-text col-lg-push-3">Status
+                        </th>
+                        <th  class="col-lg-offset-1">Pending tasks
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-4 profile-text col-lg-push-3">Activity done on time: {{taskDone}}
+                        </td>
+                        <td >
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="{{percentTaskDone}}" aria-valuemin="0" aria-valuemax="100" ng-style="taskDoneStyle">
+                                    <span class="sr-only">{{percentTaskDone}}% Complete</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-4 profile-text col-lg-push-3">
+                            Activity done late : {{taskLate}}
+                        </td>
+                        <td class="col-lg-offset-1">
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="{{percentTaskLate}}" aria-valuemin="0" aria-valuemax="100" ng-style="taskLateStyle" >
+                                    <span class="sr-only">{{percentTaskLate}}% Complete</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </div><!-- /row -->
+
 </div>
     </section>
     </section>

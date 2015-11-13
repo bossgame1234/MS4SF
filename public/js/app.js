@@ -23,6 +23,8 @@ var app =  angular.module('ms4sf',[
     'externalMainController',
     'activityMainController',
     'activityServices',
+    'taskMainController',
+    'taskServices',
     'testController'
 ]).value("rndAddToLatLon", function () {
         return Math.floor(((Math.random() < 0.5 ? -1 : 1) * 2) + 1);
@@ -147,9 +149,24 @@ app.config(['$routeProvider','$authProvider',
                 templateUrl: 'view/activityTimelinePage.html',
                 controller: 'timeLineActivityController'
                 }).
-
+                when('/viewOverAllTask',{
+                    templateUrl: 'view/viewOverAllTaskPage.html',
+                    controller: 'overAllTaskController'
+                }).
+                when('/addTask',{
+                    templateUrl: 'view/addTaskPage.html',
+                    controller: 'addTaskController'
+                }).
+                when('/editTask/:id',{
+                    templateUrl: 'view/addTaskPage.html',
+                    controller: 'editTaskController'
+                }).
+                when('/viewOwnTask',{
+                    templateUrl: 'view/taskTimelinePage.html',
+                    controller: 'timeLineTaskController'
+                }).
                 otherwise(
-                      {redirectTo: '/login'}
+                      {redirectTo: '/welcome'}
                 );
     }]);
 app.config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {

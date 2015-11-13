@@ -95,7 +95,7 @@ class activityController extends Controller
     public function update(Request $request, $id)
     {
         if($request->input('date')==""||$request->input('time')==""||$request->input('description')==""){
-            return reponse()->json("input data not enough",500);
+            return response()->json("input data not enough",500);
         }
         if($id==null){
             return null;

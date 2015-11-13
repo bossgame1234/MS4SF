@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 
 use App\activity;
+use App\TaskList;
 use Illuminate\Http\Request;
 use App\User;
 // import the Intervention Image Manager Class
@@ -48,6 +49,11 @@ class FileUploadController extends Controller
                 {
                     $activity = Activity::find($request->input('id'));
                     $activity->pictureDist = 'temp/'.$_POST['flowFilename'];
+                    $activity->update();
+                }else if($request->input('mode')=="task")
+                {
+                    $activity = TaskList::find($request->input('id'));
+                    $activity->pictureLocation = 'temp/'.$_POST['flowFilename'];
                     $activity->update();
                 }
             }

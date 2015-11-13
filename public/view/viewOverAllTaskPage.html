@@ -1,0 +1,82 @@
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-9 main-chart">
+                <div class="goright">
+                   <a href="#/addTask"><button class="btn btn-warning">Add Task</button></a>
+                </div>
+                <div class="col-md-6">
+                    <h3>Work progress</h3>
+                    <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
+                </div>
+                <div class="col-md-6">
+                    <h3>Most active worker</h3>
+                    <div ng-repeat="top in tops">
+                        <div class="row">
+                        <div class="col-sm-2 control-label" >
+                           <h6> {{$index+1}}<i class="fa fa fa-trophy" ng-if="$index=='0'"></i></h6>
+                        </div><div class="col-sm-4 col-sm-pull-1">
+                        <h5 class="control-label">{{top.name}} {{top.lastname}}</h5>
+                         </div>
+                        <div class="col-sm-5 control-label col-sm-pull-1" >
+                           <h6> : {{top.count}} done works</h6><br/>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-advance table-hover">
+                        <h4><i class="fa fa-angle-right"></i> Task List</h4>
+                    <thead>
+                    <tr>
+                        <th><i class="fa fa-question-circle"></i>Task Description</th>
+                        <th><i class="fa fa-user"></i>Assign To</th>
+                        <th> <i class="fa fa-bookmark"></i>Status</th>
+                        <th><i class=" fa fa-edit"></i> Edit</th>
+                        <th><i class=" fa fa-trash-o"></i> Delete</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="task in tasks">
+                            <td>{{task.description}}</td>
+                            <td><label ng-repeat="worker in task.worker_member">{{worker.name}} {{worker.lastname}},</label></td>
+                            <td><span ng-class="{'label-success' : task.status=='Done','label-danger' : task.status=='Late'||task.status=='Late done','label-warning': task.status=='Working',
+                            'label-info': task.status=='Remaining'}" class="label label-mini label-">{{task.status}}</span></td>
+                            <td><a href="#/editTask/{{task.id}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
+                            <td><button class="btn btn-danger btn-xs" ng-click="deleteTask(task.id)"><i class="fa fa-trash-o "></i></button></td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-3 ds">
+                <!--COMPLETED ACTIONS DONUTS CHART-->
+                <h3>NOTIFICATIONS</h3>
+
+                <!-- First Action -->
+                <div class="desc">
+                    <div class="thumb">
+                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                    </div>
+                    <div class="details">
+                        <p><muted>2 Minutes Ago</muted><br/>
+                            <a href="#">James Brown</a> subscribed to your newsletter.<br/>
+                        </p>
+                    </div>
+                </div>
+                <h3>TEAM MEMBERS</h3>
+                <!-- First Member -->
+
+                <div class="desc" ng-repeat="member in members">
+                    <div class="thumb">
+                        <img class="img-circle" src="{{member.pictureDist}}" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#viewMemberProfile/{{member.id}}">{{member.name}} {{member.lastname}}</a><br/>
+                            <muted>{{member.role}}</muted>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</section>

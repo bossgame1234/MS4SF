@@ -277,6 +277,7 @@ deviceMainController.controller('sensorMonitoringSummaryController',['$scope','$
 
             };
             chart1.options = {
+                backgroundColor: '#F4EBDA',
                 "title": $scope.title,
                 "isStacked": "true",
                 "fill": 24,
@@ -434,6 +435,7 @@ deviceMainController.controller('sensorMonitoringWeeklySummaryController',['$sco
 
             };
             chart1.options = {
+                backgroundColor: '#F4EBDA',
                 "title": $scope.title,
                 "isStacked": "true",
                 "fill": 24,

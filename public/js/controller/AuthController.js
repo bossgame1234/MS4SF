@@ -9,7 +9,7 @@ function($http,$auth,$rootScope,$location,$timeout) {
 
     var vm = this;
     if($rootScope.User==null){
-        $.backstretch("assets/img/farm-scenery.svg", {speed: 500,opacity: 1.0});
+      //  $.backstretch("assets/img/farm-scenery.svg", {speed: 500,opacity: 1.0});
         $location.url("login");
         $rootScope.UserIdentify= false;
         if($location.path()!="login"){
@@ -20,7 +20,6 @@ function($http,$auth,$rootScope,$location,$timeout) {
     }
 
     vm.login = function() {
-
         var credentials = {
             username: vm.username,
             password: vm.password

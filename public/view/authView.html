@@ -1,3 +1,13 @@
+<style>
+    body {
+        background: url('assets/img/768.png') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>
+<h3 style='color: white ;font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, sans-serif'>farm-able</h3>
 <section id="main-content5">
     <section class="wrapper">
 <div id="login-page">
@@ -10,7 +20,7 @@
                 <br>
                 <input type="password" class="form-control" name="pw" placeholder="Password" ng-model="auth.password" required>
                 <br>
-                <button class="btn btn-theme btn-block" ng-disabled="login.un.$error.required||login.pw.$error.required" ng-click="auth.login()" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
+                <button class="btn btn-theme btn-block" ng-disabled="login.un.$error.required||login.pw.$error.required" ng-click="auth.login()"><i class="fa fa-lock"></i> SIGN IN</button>
                 <hr>
                 <div class="registration">
                     Don't have an account yet?<br/>

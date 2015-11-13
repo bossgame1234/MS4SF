@@ -14,7 +14,7 @@ externalMainController.controller('weatherController',['$http','$scope','$rootSc
         $http.jsonp(url, { params : {
             lat : $rootScope.Latitude.toString(),
             lon : $rootScope.Longitude.toString(),
-            appid : "bd82977b86bf27fb59a04b61b657fb6f",
+            appid : "bcc93ef623451d89172784421e454ee0",
             callback: 'JSON_CALLBACK'
         }}).
             success(function(data, status, headers, config) {

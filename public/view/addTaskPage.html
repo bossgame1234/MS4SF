@@ -1,0 +1,172 @@
+<section id="main-content">
+    <section class="wrapper">
+        <h3  ng-hide="editTask"><i class="fa fa-angle-right"></i> Add Task</h3>
+        <h3  ng-show="editTask&&User.role=='farmer'"><i class="fa fa-angle-right"></i> Edit Task</h3>
+        <h3  ng-show="editTask&&User.role=='farm worker'"><i class="fa fa-angle-right"></i> Update Task</h3>
+        <!-- BASIC FORM ELELEMNTS -->
+        <form class="form-horizontal style-form" name="act" flow-init novalidate>
+            <div class="form-group " ng-hide="User.role=='farm worker'">
+                <label class="col-sm-2 col-sm-2 control-label">Worker </label>
+                <div class="col-sm-9 col-sm-pull-0">
+                    <select class="form-control"  ng-show="loadMember" ng-change="addMember(member_id)" ng-model="member_id">
+                        <option ng-repeat="member in members" value="{{member.id}}.{{member.name}}">{{member.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group " ng-if="name.length!=0" ng-hide="User.role=='farm worker'">
+                <label class="col-sm-2 col-sm-2 control-label">Assigned Worker</label>
+                <div class="col-sm-9 col-sm-pull-0">
+                    <div ng-repeat="n in name">
+                        <div class="col-sm-1">
+                        <label class="control-label">{{n}}</label>
+                        </div>
+                        <div class="col-sm-1">
+                        <button class="btn btn-theme04" ng-click="removeMember(task.worker[$index])">remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group " ng-hide="editTask">
+                <label class="col-sm-2 col-sm-2 control-label" >Plot name</label>
+                <div class="col-sm-9 col-sm-pull-0">
+                    <select class="form-control"  ng-show="loadPlot" ng-change="savePlotID(plot_id)" ng-model="plot_id" ng-init="plot_id=task.plant.plot.name">
+                        <option ng-repeat="plot in plots" value="{{plot.id}}">{{plot.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group " ng-if="plot_id!=0" ng-hide="editTask" >
+                <label class="col-sm-2 col-sm-2 control-label">Plant name</label>
+                <div class="col-sm-9 col-sm-pull-0" >
+                    <select ng-if="plot_id!=0" class="form-control" ng-model="task.plant_id" ng-options="plant.id as plant.name for plant in plants" required>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group " ng-hide="User.role=='farm worker'">
+                <label class="col-sm-2 col-sm-2 control-label">Date</label>
+                <div class="col-sm-4" id="date-container">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" id="picker" ng-model="task.date"  data-provide="datepicker" data-date-end-date="0d">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+                <label class="col-sm-2 col-sm-2 control-label">Time</label>
+                <div class="col-sm-4 col-sm-pull-1">
+                    <div class="input-group bootstrap-timepicker timepicker">
+                        <input id="timepicker" type="text" class="form-control input-small" ng-model="task.time" >
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group " ng-hide="User.role=='farm worker'">
+                <label class="col-sm-2 col-sm-2 control-label">Activity Assign</label>
+                <div class="col-sm-10">
+                    <div class="col-md-1">
+
+                        <a href='' ng-click="tillingCheck()" >
+                            <div ng-show="tillingSelected">
+                                <img style="border:4px solid green" width="50px" height="50px"  src="assets/img/tilling.jpg">
+                            </div>
+                            <div ng-hide="tillingSelected">
+                                <img width="50px" height="50px" src="assets/img/tilling.jpg">
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col-md-1">
+                        <a href='' ng-click="plantingCheck()">
+                            <div ng-show="plantingSelected">
+                                <img style="border:4px solid green" width="50px" height="50px" src="assets/img/planting.jpg">
+                            </div>
+                            <div ng-hide="plantingSelected">
+                                <img width="50px" height="50px" src="assets/img/planting.jpg">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href='' ng-click="pruningCheck()" >
+                            <div ng-show="pruningSelected">
+                                <img style="border:4px solid green" width="50px" height="50px" src="assets/img/pruning.jpg">
+                            </div>
+                            <div ng-hide="pruningSelected">
+                                <img width="50px" height="50px" src="assets/img/pruning.jpg" >
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href='' ng-click="harvestingCheck()">
+                            <div ng-show="harvestingSelected">
+                                <img style="border:4px solid green" width="50px" height="50px" src="assets/img/harvesting.jpg">
+                            </div>
+                            <div ng-hide="harvestingSelected">
+                                <img width="50px" height="50px" src="assets/img/harvesting.jpg">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href='' ng-click="fertilizingCheck()">
+                            <div ng-show="fertilizingSelected">
+                                <img style="border:4px solid green" width="50px" height="50px" src="assets/img/fertilizing.jpg">
+                            </div>
+                            <div ng-hide="fertilizingSelected">
+                                <img width="50px" height="50px" src="assets/img/fertilizing.jpg">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href='' ng-click="wateringCheck()">
+                            <div ng-show="wateringSelected">
+                                <img style="border:4px solid green" width="50px" height="50px" src="assets/img/watering.jpg">
+                            </div>
+                            <div ng-hide="wateringSelected">
+                                <img width="50px" height="50px" src="assets/img/watering.jpg">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a href='' ng-click="scoutingCheck()">
+                            <div ng-show="scoutingSelected">
+                                <img style="border:4px solid green" width="50px" height="50px" src="assets/img/scouting.jpg">
+                            </div>
+                            <div ng-hide="scoutingSelected">
+                                <img width="50px" height="50px" src="assets/img/scouting.jpg">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group ">
+                <div  flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" class="col-sm-4 col-sm-push-2">
+                    <div class="thumbnail" ng-if="!task.pictureLocation" ng-show="!$flow.files.length">
+                        <img height="200px" width="200px" src="assets/img/noimage.png" />
+                    </div>
+                    <div class="thumbnail" ng-if="task.pictureLocation"  ng-show="!$flow.files.length">
+                        <img height="200px" width="200px" src="{{task.pictureLocation}}" />
+                    </div>
+                    <div class="thumbnail" ng-show="$flow.files.length">
+                        <img height="200px" width="200px" flow-img="$flow.files[0]" />
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            Only PNG,GIF,JPG,JEPG files allowed.
+                        </p></div>
+                    <div  class="goright col-md-4" style="margin-bottom: 10px">
+                        <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
+                        <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
+                             <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">
+                                 Remove
+                              </span>
+                    </div>
+                </div>
+                <label class="col-sm-1 col-sm-1 col-sm-push-2 control-label">Description</label>
+                <div class="col-sm-4 col-sm-pull-1 col-sm-push-2">
+                    <textarea rows="7"  class="form-control"  name="description" placeholder="input description here"  ng-model="task.description"></textarea>
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-md-offset-4 col-md-push-4">
+                <button ng-show="editTask&&User.role=='farm worker'" type="submit" class="btn btn-theme04 btn-lg btn-block" ng-click="editTask($flow)">UPDATE TASK</button>
+                <button ng-show="editTask&&User.role=='farmer'" type="submit" class="btn btn-theme04 btn-lg btn-block" ng-click="editTask($flow)">EDIT TASK</button>
+                <button ng-hide="editTask" type="submit" class="btn btn-theme04 btn-lg btn-block" ng-click="addTask($flow)">ADD TASK</button>
+            </div>
+        </form>
+    </section>
+</section>

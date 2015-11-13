@@ -42,6 +42,7 @@
     <script src="js/controller/UserController.js"></script>
     <script src="js/controller/externalFactorController.js"></script>
     <script src="js/controller/ActivityController.js"></script>
+    <script src="js/controller/TaskController.js"></script>
     <!--Js Service App-->
     <script src="js/service/PlotService.js"></script>
     <script src="js/service/FarmService.js"></script>
@@ -49,11 +50,12 @@
     <script src="js/service/DeviceService.js"></script>
     <script src="js/service/UserService.js"></script>
     <script src="js/service/ActivityService.js"></script>
+    <script src="js/service/TaskService.js"></script>
 </head>
 <body ng-app="ms4sf">
 <section id="container" >
     <!--header start-->
-    <header class="header black-bg">
+    <header class="header black-bg" ng-show="UserIdentify">
         <div class="sidebar-toggle-box " ng-show="UserIdentify">
             <div class="fa fa-bars tooltips" data-placement="right"></div>
         </div>
@@ -75,7 +77,7 @@
         </div>
    </header>
     <!--header end-->
-    <aside >
+    <aside>
         <div id="sidebar"  class="nav-collapse " ng-show="UserIdentify">
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered"><a href="#userProfile"><img ng-if="User.pictureDist" src="{{User.pictureDist}}" class="img-circle" height="100" width="100">
@@ -93,7 +95,7 @@
                 </li>
                 <li class="sub-menu" ng-hide="User.role=='admin'">
                     <a href="javascript:;" >
-                        <i class="fa fa-inbox"></i>
+                        <i class="fa fa-line-chart"></i>
                         <span>Farm monitoring</span>
                     </a>
                     <ul class="sub" ng-controller="NavigationCtrl">
@@ -117,6 +119,18 @@
                               </div>
                         </li>
                     </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="#/viewOverAllTask" ng-show="SelectedFarm&&User.role == 'farmer'">
+                        <i class="fa fa-tasks"></i>
+                        <span>Task</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="#/viewOwnTask" ng-show="SelectedFarm&&User.role == 'farm worker'">
+                        <i class="fa fa-tasks"></i>
+                        <span>Task assignment</span>
+                    </a>
                 </li>
                 <li class="sub-menu">
                     <a href="#/timeLineActivity" ng-show="SelectedFarm">
@@ -165,7 +179,7 @@
 
 <!--script for this page-->
 <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-
+<script src="assets/js/zabuto_calendar.js"></script>
 <!--custom switch-->
 <script src="assets/js/bootstrap-switch.js"></script>
 
