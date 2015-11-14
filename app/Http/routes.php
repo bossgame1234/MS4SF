@@ -47,7 +47,7 @@ Route::get('currentEnvironmentValue/{id}','sensorController@getCurrentEnvironmen
 Route::post('uploadPicture','FileUploadController@upload');
 
 //farm CRUD route
-Route::resource('task','taskListController');
+Route::resource('task','TaskListController');
 Route::resource('activity','activityController');
 Route::resource('farm','farmController');
 Route::resource('plot','plotController');
