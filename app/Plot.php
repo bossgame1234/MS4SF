@@ -15,7 +15,7 @@ class Plot extends Model
         return $this->hasMany('App\Plant');
     }
     public function farm(){
-        return $this->belongsTo('App\farm');
+        return $this->belongsTo('App\Farm');
     }
 
 }

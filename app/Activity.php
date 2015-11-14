@@ -12,9 +12,9 @@ class activity extends Model
     return $this->belongsToMany('App\ActivityType');
     } ////
     public function plant(){
-    return $this->belongsTo('App\plant');
+    return $this->belongsTo('App\Plant');
     }
     public function user(){
-    return $this->belongsToMany('App\user');
+    return $this->belongsToMany('App\User');
     }
 }

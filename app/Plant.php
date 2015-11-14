@@ -9,7 +9,7 @@ class Plant extends Model
     protected $table= 'plant';
     protected $fillable =['name','type','DOB','harvestDay','plot_id'];
     public function plot(){
-        return $this->belongsTo('App\plot');
+        return $this->belongsTo('App\Plot');
     }
     public function taskList(){
         return $this->hasMany('App\TaskList');

@@ -34,7 +34,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->belongsToMany('App\Farm');
 	}
 	public function activity(){
-		return $this->belongsToMany('App\activity');
+		return $this->belongsToMany('App\Activity');
 	}
 	public function taskList(){
 		return $this->belongsToMany('App\TaskList')->orderBy('date', 'desc')->orderBy('time', 'desc');
