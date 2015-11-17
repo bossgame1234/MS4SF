@@ -57,7 +57,7 @@ return [
 			'host'      => '127.0.0.1',
 			'database'  =>  'ms4sf',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => '1234',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
