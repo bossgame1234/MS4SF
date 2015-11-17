@@ -30,7 +30,7 @@
                 <td>{{plot.DOB}}</td>
                 <td  ng-show="User.role == 'farmer'"><a ng-href="#/editPlot/{{plot.id}}"> <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
                 <td  ng-show="User.role == 'farmer'"><a href="#/viewPlotList" ng-click="deletePlot(plot.id)"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a></td>
-                <td><a ng-href="#/viewPlotList" ng-click="selectPlot(plot.id,plot.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button></a></td>
+                <td><a ng-href="#/viewPlantList" ng-click="selectPlot(plot.id,plot.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button></a></td>
             </tr>
         </table>
     </section>

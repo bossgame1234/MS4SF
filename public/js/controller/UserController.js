@@ -75,16 +75,22 @@ userMainController.controller('viewOwnProfileController',['$http','$scope','$roo
                 $scope.taskList = data[0].task_list;
                 $scope.taskDone = 0;
                 $scope.taskLate = 0;
+                $scope.taskRemain =0;
+                $scope.taskAll =0;
                 for (var i = 0; i < $scope.taskList.length; i++) {
                     if ($scope.taskList[i].status == "Done") {
                         $scope.taskDone++;
+                        $scope.taskAll++;
                     } else if ($scope.taskList[i].status == "Late done") {
                         $scope.taskLate++;
+                        $scope.taskAll++;
+                    } else if($scope.taskList[i].status == "Remaining"){
+                        $scope.taskRemain++;
                     }
                 }
-                $scope.taskSum = $scope.taskLate + $scope.taskDone;
-                $scope.percentTaskDone = ($scope.taskDone * 100) / $scope.taskSum;
-                $scope.percentTaskLate = ($scope.taskLate * 100) / $scope.taskSum;
+                $scope.taskSum = $scope.taskAll + $scope.taskRemain;
+                $scope.percentTaskDone = ($scope.taskAll * 100) / $scope.taskSum;
+                $scope.percentTaskLate = ($scope.taskRemain * 100) / $scope.taskSum;
                 $scope.taskDoneStyle = {width: $scope.percentTaskDone + '%'};
                 $scope.taskLateStyle = {width: $scope.percentTaskLate + '%'};
             });
@@ -105,16 +111,22 @@ userMainController.controller('viewMemberProfileController',['$http','$scope','$
                 $scope.taskList = data[0].task_list;
                 $scope.taskDone = 0;
                 $scope.taskLate = 0;
+                $scope.taskRemain =0;
+                $scope.taskAll =0;
                 for (var i = 0; i < $scope.taskList.length; i++) {
                     if ($scope.taskList[i].status == "Done") {
                         $scope.taskDone++;
+                        $scope.taskAll++;
                     } else if ($scope.taskList[i].status == "Late done") {
                         $scope.taskLate++;
+                        $scope.taskAll++;
+                    } else if($scope.taskList[i].status == "Remaining"){
+                        $scope.taskRemain++;
                     }
                 }
-                $scope.taskSum = $scope.taskLate + $scope.taskDone;
-                $scope.percentTaskDone = ($scope.taskDone * 100) / $scope.taskSum;
-                $scope.percentTaskLate = ($scope.taskLate * 100) / $scope.taskSum;
+                $scope.taskSum = $scope.taskAll + $scope.taskRemain;
+                $scope.percentTaskDone = ($scope.taskAll * 100) / $scope.taskSum;
+                $scope.percentTaskLate = ($scope.taskRemain * 100) / $scope.taskSum;
                 $scope.taskDoneStyle = {width: $scope.percentTaskDone + '%'};
                 $scope.taskLateStyle = {width: $scope.percentTaskLate + '%'};
             });

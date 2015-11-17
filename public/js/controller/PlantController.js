@@ -32,6 +32,7 @@ plantMainController.controller('listPlantController', ['$scope', '$http','$route
                 $rootScope.PlantId = id;
                 $rootScope.plantName = plantName;
                 $rootScope.SelectedPlant = true;
+                $location.path("sensingDeviceList");
             }
         }
 

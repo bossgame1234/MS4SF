@@ -1,9 +1,8 @@
 <section id="main-content">
-    <section class="wrapper site-min-height">
+    <section class="wrapper">
         <div class="form-body">
             <div class="col-lg-12">
                 <div class="row content-panel">
-
             <div class="col-md-4 profile-text col-md-push-3">
                 <h2 style="color: #FF865C">{{member.name}} {{member.lastname}}</h2>
                 <h5 style="margin-left: 0px">{{member.role}}</h5>
@@ -21,28 +20,39 @@
 
             </div>
         </div>
-            <div class="col-md-12 detailed" ng-hide="member.role=='farmer'">
-                <h4>User Stats</h4>
-                <div class="row centered mt mb">
-                    <div class="col-sm-6">
+            </div>
+    </section>
+        <section class="side-minheight wrapper " style="margin-top: 10px" ng-show="User.role=='farm worker'">
+         <div class="form-body">
+                <div class="col-lg-12">
+                    <div class="row content-panel">
+                    <div class="col-md-6 profile-text">
+                        <div class="col-sm-12 detailed" ng-hide="member.role=='farmer'">
+                        <h4>User Stats</h4>
+                            <div class="row centered mt mb">
+                        <div class="col-sm-6">
                         <h1><i class="fa fa-thumbs-up"></i></h1>
                         <h3>{{taskDone}}</h3>
-                        <h6>ACTIVITY DONE ON TIME</h6>
-                    </div>
-                    <div class="col-sm-6">
+                        <h6>TASK DONE ON TIME</h6>
+                        </div>
+                        <div class="col-sm-6">
                         <h1><i class="fa fa-thumbs-down"></i></h1>
                         <h3>{{taskLate}}</h3>
-                        <h6>ACTIVITY DONE LATE</h6>
-                    </div>
-                    <table  class="col-lg-8 col-lg-push-3 col-lg-pull-1">
+                        <h6>TASK DONE LATE</h6>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6 profile-text">
+                    <table  class="col-sm-11 col-sm-pull-1" style="margin-top: 70px;">
                     <tr >
-                        <th class="col-lg-4 profile-text col-lg-push-3">Status
+                        <th class="col-sm-4 profile-text col-sm-push-0">Status
                         </th>
-                        <th  class="col-lg-offset-1">Pending tasks
+                        <th  class="col-sm-offset-1">Task
                         </th>
                     </tr>
                     <tr>
-                        <td class="col-lg-4 profile-text col-lg-push-3">Activity done on time: {{taskDone}}
+                        <td class="col-sm-4 ">Task done : {{taskAll}}
                         </td>
                         <td >
                             <div class="progress progress-striped active">
@@ -53,10 +63,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="col-lg-4 profile-text col-lg-push-3">
-                            Activity done late : {{taskLate}}
+                        <td class="col-sm-4 ">
+                            Remaining task : {{taskRemain}}
                         </td>
-                        <td class="col-lg-offset-1">
+                        <td class="col-sm-offset-1">
                             <div class="progress progress-striped active">
                                 <div class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="{{percentTaskLate}}" aria-valuemin="0" aria-valuemax="100" ng-style="taskLateStyle" >
                                     <span class="sr-only">{{percentTaskLate}}% Complete</span>
@@ -64,9 +74,10 @@
                             </div>
                         </td>
                     </tr>
-                </table>
-                </div><!-- /row -->
-
-</div>
-    </section>
-    </section>
+                    </table>
+                        </div>
+                        </div>
+                    </div>
+             </div>
+        </section>
+</section>

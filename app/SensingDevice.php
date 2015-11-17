@@ -11,4 +11,7 @@ class SensingDevice extends Model
     public function sensor(){
         return $this->hasMany('App\Sensor');
     }
+    public function plot(){
+        return $this->belongsTo('App\Plot');
+    }
 }

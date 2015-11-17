@@ -60,7 +60,7 @@
             <div class="fa fa-bars tooltips" data-placement="right"></div>
         </div>
         <!--logo start-->
-            <a class="logo"><b style="font-size: larger;">MS4SF</b></a>
+            <a class="logo"><b style="font-size: larger;">farm-able</a>
         <div class="top-menu" ng-show="UserIdentify">
             <ul class="pull-right top-menu" style="margin-top: 5px">
                 <lable style="font-size: 15px;color: #ffffff;padding-top: 10px">Welcome, {{User.name}} <div ng-controller="logoutController">
@@ -123,7 +123,7 @@
                 <li class="sub-menu">
                     <a href="#/viewOverAllTask" ng-show="SelectedFarm&&User.role == 'farmer'">
                         <i class="fa fa-tasks"></i>
-                        <span>Task</span>
+                        <span>Worker Monitoring</span>
                     </a>
                 </li>
                 <li class="sub-menu">
@@ -135,7 +135,7 @@
                 <li class="sub-menu">
                     <a href="#/timeLineActivity" ng-show="SelectedFarm">
                         <i class="fa fa-leaf"></i>
-                        <span>Farm's activity</span>
+                        <span>Farm's Timeline</span>
                     </a>
                 </li>
                 <li class="sub-menu">

@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\notificationController;
+use App\MinMaxMonitor;
 use App\SensingDevice;
 use App\Sensor;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ use App\Weekly;
 |
 */
 Route::get('/', function(){return view('app.index');});
-Route::group(['prefix' => 'api'], function()
+Route::group(['middleware' => 'cors','prefix' => 'api'], function()
 {
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::post('authenticate', 'AuthenticateController@authenticate');
@@ -29,39 +31,74 @@ Route::group(['prefix' => 'api'], function()
     Route::get('user/member','userController@getMemberProfile');
     Route::put('user','userController@updateProfile');
 });
-Route::get('allMember','userController@getAllMember');
-Route::get('taskList','TaskListController@getTaskList');
-Route::get('top3','userController@getTop3Farm');
-Route::post('status','TaskListController@workingStatus');
-Route::get('device/destroy/{id}','sensingDeviceController@removePlotFromDevice');
-Route::get('lightSummary/{id}','dailyController@getLightDailySummary');
-Route::get('humiditySummary/{id}','dailyController@getHumidityDailySummary');
-Route::get('soilMoistureSummary/{id}','dailyController@getSoilMoistureDailySummary');
-Route::get('temperatureSummary/{id}','dailyController@getTemperatureDailySummary');
-Route::get('lightWeeklySummary/{id}','weeklyController@getLightWeeklySummary');
-Route::get('humidityWeeklySummary/{id}','weeklyController@getHumidityWeeklySummary');
-Route::get('soilMoistureWeeklySummary/{id}','weeklyController@getSoilMoistureWeeklySummary');
-Route::get('temperatureWeeklySummary/{id}','weeklyController@getTemperatureWeeklySummary');
-Route::get('currentEnvironmentValue/{id}','sensorController@getCurrentEnvironmentValue');
+Route::group(['middleware' => 'cors'], function() {
+    Route::get('allMember', 'userController@getAllMember');
+    Route::get('taskList', 'TaskListController@getTaskList');
+    Route::get('top3', 'userController@getTop3Farm');
+    Route::post('status', 'TaskListController@workingStatus');
+    Route::get('device/destroy/{id}', 'sensingDeviceController@removePlotFromDevice');
+    Route::get('lightSummary/{id}', 'dailyController@getLightDailySummary');
+    Route::get('humiditySummary/{id}', 'dailyController@getHumidityDailySummary');
+    Route::get('soilMoistureSummary/{id}', 'dailyController@getSoilMoistureDailySummary');
+    Route::get('temperatureSummary/{id}', 'dailyController@getTemperatureDailySummary');
+    Route::get('lightWeeklySummary/{id}', 'weeklyController@getLightWeeklySummary');
+    Route::get('humidityWeeklySummary/{id}', 'weeklyController@getHumidityWeeklySummary');
+    Route::get('soilMoistureWeeklySummary/{id}', 'weeklyController@getSoilMoistureWeeklySummary');
+    Route::get('temperatureWeeklySummary/{id}', 'weeklyController@getTemperatureWeeklySummary');
+    Route::get('currentEnvironmentValue/{id}', 'sensorController@getCurrentEnvironmentValue');
+    Route::get('note','notificationController@sentMonitorNotification');
+    Route::get('notificationMonitor/{id}','notificationController@getMinMaxMonitor');
+    Route::post('updateNotificationMonitor','notificationController@setMinMaxMonitor');
 //not yet
-Route::post('uploadPicture','FileUploadController@upload');
+    Route::post('uploadPicture', 'FileUploadController@upload');
 
 //farm CRUD route
-Route::resource('task','TaskListController');
-Route::resource('activity','activityController');
-Route::resource('farm','farmController');
-Route::resource('plot','plotController');
-Route::resource('plant','plantController');
-Route::resource('device','sensingDeviceController');
-Route::resource('sensor','sensorController');
-Route::resource('daily','dailyController');
-Route::resource('weekly','weeklyController');
+    Route::resource('task', 'TaskListController');
+    Route::resource('activity', 'activityController');
+    Route::resource('farm', 'farmController');
+    Route::resource('plot', 'plotController');
+    Route::resource('plant', 'plantController');
+    Route::resource('device', 'sensingDeviceController');
+    Route::resource('sensor', 'sensorController');
+    Route::resource('daily', 'dailyController');
+    Route::resource('weekly', 'weeklyController');
+});
 //Link SEND farm data
 Route::get('sensingResister/{device_id}/{temperature}/{soilmoisture}/{light}/{humidity}',function($id,$temp,$soil,$lux,$humid){
     $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
     $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
     $checkHourly = Light::where('sensor_id','=',$SensorPrimaryKey)->count();
     $Sensor = Sensor::find($SensorPrimaryKey);
+    $notificationController = new notificationController();
+    $device = \App\SensingDevice::where("device_id","=",$id)->first();
+    $sensor  = \App\Sensor::where("sensingDevice_id","=",$device->id)->first();
+    $notificationCheck= MinMaxMonitor::where("sensor_id","=",$sensor->id)->first();
+    if($notificationCheck!=null) {
+        if ($notificationCheck->minHumidityPercentage != 0 && $notificationCheck->minHumidityPercentage > $humid) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum humidity <" . $notificationCheck->minHumidityPercentage." %", $id);
+        }
+        if ($notificationCheck->maxHumidityPercentage != 0 && $notificationCheck->maxHumidityPercentage < $humid) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach maximum humidity >" . $notificationCheck->maxHumidityPercentage." %", $id);
+        }
+        if ($notificationCheck->minCelsius != 0 && $notificationCheck->minCelsius > $temp) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum temperature <" . $notificationCheck->minCelsius." celsius", $id);
+        }
+        if ($notificationCheck->maxCelsius != 0 && $notificationCheck->maxCelsius < $temp) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum temperature >" . $notificationCheck->maxCelsius." celsius", $id);
+        }
+        if ($notificationCheck->minSoilMoisture != 0 && $notificationCheck->minSoilMoisture > $soil) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum soil moisture <" . $notificationCheck->minSoilMoisture, $id);
+        }
+        if ($notificationCheck->maxSoilMoisture != 0 && $notificationCheck->maxSoilMoisture < $soil) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach maximum soil moisture >" . $notificationCheck->maxSoilMoisture, $id);
+        }
+        if ($notificationCheck->minLux != 0 && $notificationCheck->minLux > $humid) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum light <" . $notificationCheck->minLux." lux", $id);
+        }
+        if ($notificationCheck->maxLux != 0 && $notificationCheck->maxLux < $humid) {
+            $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach maximum light >" . $notificationCheck->maxLux." lux", $id);
+        }
+    }
     if($checkHourly==6) {
         $lightMin = Light::where('sensor_id','=',$SensorPrimaryKey)->min('luxValue');
         $lightAverage = Light::where('sensor_id','=',$SensorPrimaryKey)->avg('luxValue');

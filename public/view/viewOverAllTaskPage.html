@@ -2,15 +2,13 @@
     <section class="wrapper">
         <div class="row">
             <div class="col-lg-9 main-chart">
-                <div class="goright">
-                   <a href="#/addTask"><button class="btn btn-warning">Add Task</button></a>
+                <div class="row">
+                <div class="col-md-5">
+                    <h3 >Work progress</h3>
+                    <div google-chart chart="chartObject" align="center" style="height:300px; width:400px;"></div>
                 </div>
-                <div class="col-md-6">
-                    <h3>Work progress</h3>
-                    <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
-                </div>
-                <div class="col-md-6">
-                    <h3>Most active worker</h3>
+                <div class="col-md-5">
+                    <h3 style="margin-bottom: 60px">Most active worker</h3>
                     <div ng-repeat="top in tops">
                         <div class="row">
                         <div class="col-sm-2 control-label" >
@@ -22,6 +20,10 @@
                            <h6> : {{top.count}} done works</h6><br/>
                         </div>
                         </div>
+                    </div>
+                </div>
+                    <div class="col-md-1">
+                        <a href="#/addTask"><button class="btn btn-warning" style="margin-top: 30px">Add Task</button></a>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -48,28 +50,14 @@
                 </div>
             </div>
             <div class="col-lg-3 ds">
-                <!--COMPLETED ACTIONS DONUTS CHART-->
-                <h3>NOTIFICATIONS</h3>
-
-                <!-- First Action -->
-                <div class="desc">
-                    <div class="thumb">
-                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                    </div>
-                    <div class="details">
-                        <p><muted>2 Minutes Ago</muted><br/>
-                            <a href="#">James Brown</a> subscribed to your newsletter.<br/>
-                        </p>
-                    </div>
-                </div>
-                <h3>TEAM MEMBERS</h3>
+                <h3>FARMWORKERS</h3>
                 <!-- First Member -->
 
                 <div class="desc" ng-repeat="member in members">
                     <div class="thumb">
-                        <img class="img-circle" src="{{member.pictureDist}}" width="35px" height="35px" align="">
+                        <img class="img-circle" src="{{member.pictureDist}}" width="50px" height="50px" align="">
                     </div>
-                    <div class="details">
+                    <div class="details" style="margin-left: 30px">
                         <p><a href="#viewMemberProfile/{{member.id}}">{{member.name}} {{member.lastname}}</a><br/>
                             <muted>{{member.role}}</muted>
                         </p>

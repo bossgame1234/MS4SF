@@ -114,6 +114,7 @@ return [
 		 * Laravel Framework Service Providers...
 		 */
 		Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+		Barryvdh\Cors\ServiceProvider::class,
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Bus\BusServiceProvider',

@@ -12,14 +12,14 @@
     <img src="assets/img/bangkok_city.jpg" class="img-circle" width="200" height="200">
     </div>
     <div class="row data">
-    <div class="col-sm-6 col-xs-6 goleft">
+    <div class="col-sm-3 col-sm-push-3 col-xs-6 goleft">
         <h4><b>Current Temperature : {{weather.main.temp-274|number : 2}} ºC</b></h4>
         <h6>Max Temperature : {{weather.main.temp_max-274|number : 2}}ºC max</h6>
         <h6>Min Temperature : {{weather.main.temp_min-274|number : 2}}ºC min</h6>
         <h6>Pressure : {{weather.main.pressure}}</h6>
         <h6>Humidity : {{weather.main.humidity}} %</h6>
     </div>
-    <div class="col-sm-6 col-xs-6 goright">
+    <div class="col-sm-3 col-sm-push-3  col-xs-6 goright">
         <h5><img ng-src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png"> </h5>
         <h6><b>Status : {{weather.weather[0].main}}</b></h6>
         <h6><b>Desctription : {{weather.weather[0].description}}</b></h6>

@@ -30,7 +30,7 @@
             <td>{{farm.address}}</td>
             <td ng-show="User.role == 'farmer'">&nbsp;<a ng-href="#/editFarm/{{farm.id}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
             <td ng-show="User.role == 'farmer'">&nbsp;<a href="#/showFarmList" ng-click="deleteFarm(farm.id)"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a></td>
-            <td >&nbsp;<a ng-href="#/showFarmList" ng-click="selectFarm(farm.id,farm.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button>
+            <td >&nbsp;<a ng-href="#/viewPlotList" ng-click="selectFarm(farm.id,farm.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button>
             </a>
             </td>
         </tr>

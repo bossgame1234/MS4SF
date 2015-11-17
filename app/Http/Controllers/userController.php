@@ -53,10 +53,16 @@ class userController extends Controller
     public function getMemberProfile(Request $request){
        $userID = $request->input("id");
        $username =$request->input("username");
+        $token =$request->input("token");
+
         if($userID!=null) {
             $user = User::where("id","=",$userID)->with("activity","activity.plant","activity.activityType")->first();
         }else{
             $user =User::where("username","=",$username)->first();
+            if($token!=null){
+                $user->device_token = $token;
+                $user->update();
+            }
         }
         return $user;
     }

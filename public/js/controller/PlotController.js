@@ -39,6 +39,7 @@ plotMainController.controller('listPlotController', ['$scope', '$http','$route',
                 $rootScope.PlotName = name;
                 $rootScope.plotId = id;
                 $rootScope.SelectedPlot = true;
+                $location.path("viewPlantList");
             }
         }
     }]);

@@ -53,7 +53,8 @@ farmMainController.controller('showFarmController',['$scope','$http','$location'
             $http.get("index.php/farm/" + id).success(function (data) {
                 $rootScope.Latitude = data.latitude;
                 $rootScope.Longitude = data.longitude;
-            })
+            });
+            $location.path("viewPlotList");
         }
         }
 }]);

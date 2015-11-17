@@ -28,7 +28,7 @@
                 <td>{{plant.type}}</td>
                 <td ng-show="User.role == 'farmer'"><a ng-href="#/editPlant/{{plant.id}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
                 <td  ng-show="User.role == 'farmer'"><a href="#/viewPlant" ng-click="deletePlant(plant.id)"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a></td>
-                <td ><a ng-href="#/viewPlantList" ng-click="selectPlant(plant.id,plant.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button></a></td>
+                <td ><a ng-href="#/sensingDeviceList" ng-click="selectPlant(plant.id,plant.name)"><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pushpin" style="color: white" aria-hidden="true"></i></button></a></td>
             </tr>
         </table>
     </section>
