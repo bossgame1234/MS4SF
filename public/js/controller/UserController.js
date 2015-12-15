@@ -71,8 +71,8 @@ userMainController.controller('viewOwnProfileController',['$http','$scope','$roo
         $scope.ownProfile = true;
         $scope.member = data;
         if($scope.member!=undefined) {
-            $http.get('index.php/taskList?id=' + $scope.member.id).success(function (data) {
-                $scope.taskList = data[0].task_list;
+            $http.get('index.php/taskList?id='+ $scope.member.id+"&mode=profile").success(function (data) {
+                $scope.taskList = data;
                 $scope.taskDone = 0;
                 $scope.taskLate = 0;
                 $scope.taskRemain =0;
@@ -107,7 +107,7 @@ userMainController.controller('viewMemberProfileController',['$http','$scope','$
     $http.get("index.php/api/user/member?id=" + id).success(function (data) {
         $scope.member = data;
         if($scope.member!=undefined) {
-            $http.get('index.php/taskList?id=' + $scope.member.id).success(function (data) {
+            $http.get('index.php/taskList?id=' + $scope.member.id+"&mode=profile").success(function (data) {
                 $scope.taskList = data[0].task_list;
                 $scope.taskDone = 0;
                 $scope.taskLate = 0;

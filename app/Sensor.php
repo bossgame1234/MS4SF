@@ -9,7 +9,7 @@ class Sensor extends Model
     protected $table= 'sensor';
     protected $fillable =['name','sensingDevice_id'];
     public function sensingDevice(){
-        return $this->belongsTo('App\SensingDevice');
+        return $this->belongsTo('App\SensingDevice','id');
     }
     public function temperature(){
         return $this->hasMany('App\Temperature');
@@ -31,5 +31,8 @@ class Sensor extends Model
     }
     public function weekly(){
         return $this->hasMany('App\Weekly');
+    }
+    public function notification(){
+        return $this->hasOne('App\MinMaxMonitor');
     }
 }

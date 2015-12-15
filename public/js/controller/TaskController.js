@@ -52,6 +52,13 @@ taskMainController.controller('addTaskController',['$scope', '$http','$location'
         };
         $scope.task.date =  $filter('date')(new Date(),"MM/dd/yyyy");
         $scope.task.time = $filter('date')(new Date(),"HH:mm:ss");
+        $rootScope.tillingSelected = false;
+        $rootScope.plantingSelected = false;
+        $rootScope.pruningSelected= false;
+        $rootScope.harvestingSelected = false;
+        $rootScope.fertilizingSelected = false;
+        $rootScope.wateringSelected = false;
+        $rootScope.scoutingSelected = false;
         $scope.tillingCheck = function(){
             if(!$rootScope.tillingSelected) {
                 $scope.task.type[0] = 1;
@@ -390,9 +397,9 @@ taskMainController.controller('timeLineTaskController', ['$scope', '$http', '$ro
         $scope.set = new Array();
         $scope.icon = new Array();
         $scope.toDay =  $filter('date')(new Date(),"yyyy-MM-dd");
-        $http.get('index.php/taskList?id='+$rootScope.User.id).success(function(data){
-            $scope.taskList = data[0].task_list;
-            for(var i=0;i<data[0].task_list.length;i++) {
+        $http.get('index.php/taskList?id='+$rootScope.User.id+"&mode=timeline").success(function(data){
+            $scope.taskList = data;
+            for(var i=0;i<data.length;i++) {
                     $scope.check = true;
                     if ($scope.taskList[i].pictureLocation != '') {
                         var showImage = '<img class="img-responsive" src="' + $scope.taskList[i].pictureLocation + '">';
@@ -415,12 +422,12 @@ taskMainController.controller('timeLineTaskController', ['$scope', '$http', '$ro
                         colorBadge = 'info';
                         badgeIcon = 'glyphicon-map-marker';
                     }
-                    for (var j = 0; j < data[0].task_list[i].activity_type.length; j++) {
-                        $scope.icon[j] = data[0].task_list[i].activity_type[j].name;
+                    for (var j = 0; j < data[i].activity_type.length; j++) {
+                        $scope.icon[j] = data[i].activity_type[j].name;
                     }
                     if($scope.taskList[i].status!="Done"&&$scope.taskList[i].status!="Late done") {
-                        for (var k = 0; k < data[0].task_list[i].activity_type.length; k++) {
-                            switch (data[0].task_list[i].activity_type[k].name) {
+                        for (var k = 0; k < data[i].activity_type.length; k++) {
+                            switch (data[i].activity_type[k].name) {
                                 case 'tilling' :
                                     $scope.tillingCount++;
                                     break;
@@ -448,7 +455,7 @@ taskMainController.controller('timeLineTaskController', ['$scope', '$http', '$ro
                     $scope.set[i] = {
                         badgeClass: colorBadge,
                         badgeIconClass: badgeIcon,
-                        title: data[0].task_list[i].plant.plot.name + '->' + data[0].task_list[i].plant.name,
+                        title: data[i].plant.plot.name + '->' + data[i].plant.name,
                         when: $scope.taskList[i].date + ' ' + $scope.taskList[i].time,
                         who: {
                             name: $scope.taskList[i].owner_task.name + ' ' + $scope.taskList[i].owner_task.lastname,

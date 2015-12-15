@@ -129,7 +129,7 @@
                 <li class="sub-menu">
                     <a href="#/viewOwnTask" ng-show="SelectedFarm&&User.role == 'farm worker'">
                         <i class="fa fa-tasks"></i>
-                        <span>Task assignment</span>
+                        <span>My tasks</span>
                     </a>
                 </li>
                 <li class="sub-menu">

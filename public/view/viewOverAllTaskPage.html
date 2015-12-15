@@ -34,6 +34,8 @@
                         <th><i class="fa fa-question-circle"></i>Task Description</th>
                         <th><i class="fa fa-user"></i>Assign To</th>
                         <th> <i class="fa fa-bookmark"></i>Status</th>
+                        <th> <i class="fa fa-calendar"></i>Deadline</th>
+                        <th> <i class="fa fa-pagelines"></i>Plot,Plant</th>
                         <th><i class=" fa fa-edit"></i> Edit</th>
                         <th><i class=" fa fa-trash-o"></i> Delete</th>
                     </tr>
@@ -43,6 +45,8 @@
                             <td><label ng-repeat="worker in task.worker_member">{{worker.name}} {{worker.lastname}},</label></td>
                             <td><span ng-class="{'label-success' : task.status=='Done','label-danger' : task.status=='Late'||task.status=='Late done','label-warning': task.status=='Working',
                             'label-info': task.status=='Remaining'}" class="label label-mini label-">{{task.status}}</span></td>
+                            <td>{{task.date}},{{task.time}}</td>
+                            <td>{{task.plotName}},{{task.plantName}}</td>
                             <td><a href="#/editTask/{{task.id}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a></td>
                             <td><button class="btn btn-danger btn-xs" ng-click="deleteTask(task.id)"><i class="fa fa-trash-o "></i></button></td>
                     </tr>

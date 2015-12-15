@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Farm;
+use App\Plant;
 use App\TaskList;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class TaskListController extends Controller
 {
@@ -41,6 +44,8 @@ class TaskListController extends Controller
                         $date = date("Y-m-d");
                         if(strtotime($task->date)>strtotime($date."- 7 days")){
                             $onlyTask[$i] = $task;
+                            $onlyTask[$i]->plantName = $plant->name;
+                            $onlyTask[$i]->plotName  = $plot->name;
                             $i++;
                         }
                     }
@@ -68,10 +73,14 @@ class TaskListController extends Controller
         $task->plant_id = $request->input('plant_id');
         $typeActivity[] = $request->input('type');
         $task->save();
-        $worker[] = $request->input('worker');
-        foreach ($worker as $id) {
-            if ($id != "0") {
-                $task->workerMember()->attach($id);
+        $worker = $request->input('worker');
+        foreach ($worker as $uid) {
+            if ($uid != "0") {
+                $notificationControl = new notificationController();
+                $task->workerMember()->attach($uid);
+                $detailPlantPlot = Plant::where("id","=",$task->plant_id)->with("plot")->first();
+                $message = "".$user->name." ".$user->surname."has assigned you a task!";
+                $notificationControl->sentTaskToFarmWorker($message,$uid);
             }
         }
         foreach ($typeActivity as $id) {
@@ -110,17 +119,19 @@ class TaskListController extends Controller
             }
         }
         $userID = $request->input('id');
+        $mode = $request->input('mode');
         $taskList = User::with("taskList.plant.plot","taskList.activityType","taskList.ownerTask")->where("id","=",$userID)->get();
-        return $taskList;//
+        $taskSort = array();
+        $i=0;
+        foreach($taskList[0]->taskList as $task){
+            if(($task->status!="Done"&&$task->status!="Late done")||$mode=="profile"){
+                $taskSort[$i] = $task;
+            $i++;
+            }
+        }
+        return $taskSort;//
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function workingStatus(Request $request){
         $status = $request->input('status');
         $taskID = $request->input('id');
@@ -136,7 +147,22 @@ class TaskListController extends Controller
         if($date<$date1) {
             $task->status = "Late done";
         }else{
+            $taskForActivity =  TaskList::where("id","=",$taskID)->with("workerMember","activityType")->first();
             $task->status = "Done";
+            $activity  = new activity();
+            $activity->description = $taskForActivity->description;
+            $activity->date = $taskForActivity->date;
+            $activity->time = $taskForActivity->time;
+            $activity->weather = "";
+            $activity->plant_id = $taskForActivity->plant_id;
+            $activity->pictureDist = $taskForActivity->pictureLocation;
+            $activity->save();
+            foreach($taskForActivity->workerMember as $user){
+                $activity->user()->attach($user->id);
+            }
+            foreach($taskForActivity->activityType as $activityType){
+                $activity->activityType()->attach($activityType->id);
+            }
             }
             $task->update();
         }

@@ -17,5 +17,8 @@ class Plot extends Model
     public function farm(){
         return $this->belongsTo('App\Farm');
     }
+    public  function  sensingDevice(){
+        return $this->hasMany('App\SensingDevice');
+    }
 
 }

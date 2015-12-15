@@ -42,4 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function ownTask(){
 		return $this->hasMany('App\TaskList');
 	}
+	public function minMaxMonitor(){
+		return $this->belongsToMany('App\MinMaxMonitor')->withPivot("status");
+	}
 }

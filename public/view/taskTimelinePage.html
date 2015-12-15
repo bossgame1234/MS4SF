@@ -44,8 +44,8 @@
                     </timeline-footer>
                     <div class="col-md-12">
                     <button type="button" class="btn btn-theme03" ng-click="acceptTask(event.taskID,event.status)" ng-show="event.status=='Remaining'||event.status=='Late'">Accept Task</button>
-                     <a href="#/editTask/{{event.taskID}}"><button type="button" class="btn btn-theme01" ng-show="event.status=='Working'">Update Task</button></a> <br/>
-                    <button type="button" class="btn btn-theme02" ng-click="finishTask(event.taskID,event.status)" ng-show="event.status=='Working'">Finish Task</button>
+                     <a href="#/editTask/{{event.taskID}}"><button type="button" class="btn btn-theme01" ng-show="event.status=='Working'">Update Info</button></a> <br/>
+                    <button type="button" class="btn btn-theme02" ng-click="finishTask(event.taskID,event.status)" ng-show="event.status=='Working'">Done</button>
                     </div>
                 </timeline-panel>
             </timeline-event>
