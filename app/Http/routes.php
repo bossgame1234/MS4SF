@@ -69,7 +69,209 @@ Route::group(['middleware' => 'cors'], function() {
     Route::resource('weekly', 'weeklyController');
 });
 //Link SEND farm data
+Route::get('api/light/{device_id}/{value}',function($id,$value){
+   $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
+   $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
+   $Sensor = Sensor::find($SensorPrimaryKey);
+   $notificationController = new notificationController();
+   $device = \App\SensingDevice::where("device_id","=",$id)->first();
+   $checkHourly = Light::where('sensor_id','=',$SensorPrimaryKey)->count();
+   $sensor  = \App\Sensor::where("sensingDevice_id","=",$device->id)->first();
+   $notificationCheck= MinMaxMonitor::where("sensor_id","=",$sensor->id)->first();
+   if($notificationCheck!=null) {
+     if ($notificationCheck->minLux != 0 && $notificationCheck->minLux > $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum light <" . $notificationCheck->minLux . " lux", $id);
+     }
+     if ($notificationCheck->maxLux != 0 && $notificationCheck->maxLux < $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach maximum light >" . $notificationCheck->maxLux . " lux", $id);
+     }
+   }
+   if($checkHourly==6) {
+       $lightMin = Light::where('sensor_id','=',$SensorPrimaryKey)->min('luxValue');
+       $lightAverage = Light::where('sensor_id','=',$SensorPrimaryKey)->avg('luxValue');
+       $lightMax = Light::where('sensor_id','=',$SensorPrimaryKey)->max('luxValue');
+       Light::where('sensor_id','like',$SensorPrimaryKey)->delete();
+
+       $temperatureMin = Temperature::where('sensor_id','=',$SensorPrimaryKey)->min('celsiusValue');
+       $temperatureAverage = Temperature::where('sensor_id','=',$SensorPrimaryKey)->avg('celsiusValue');
+       $temperatureMax = Temperature::where('sensor_id','=',$SensorPrimaryKey)->max('celsiusValue');
+       Temperature::where('sensor_id','like',$SensorPrimaryKey)->delete();
+
+       $humidityMin = Humidity::where('sensor_id','=',$SensorPrimaryKey)->min('humidityPercentage');
+       $humidityAverage = Humidity::where('sensor_id','=',$SensorPrimaryKey)->avg('humidityPercentage');
+       $humidityMax = Humidity::where('sensor_id','=',$SensorPrimaryKey)->max('humidityPercentage');
+       Humidity::where('sensor_id','like',$SensorPrimaryKey)->delete();
+
+       $soilMoistureMin = SoilMoisture::where('sensor_id','=',$SensorPrimaryKey)->min('soilValue');
+       $soilMoistureAverage = SoilMoisture::where('sensor_id','=',$SensorPrimaryKey)->avg('soilValue');
+       $soilMoistureMax = SoilMoisture::where('sensor_id','=',$SensorPrimaryKey)->max('soilValue');
+       SoilMoisture::where('sensor_id','like',$SensorPrimaryKey)->delete();
+
+       $daily = new Daily();
+       $daily->minLight = $lightMin;
+       $daily->avgLight = $lightAverage;
+       $daily->maxLight = $lightMax;
+
+       $daily->minTemperature = $temperatureMin;
+       $daily->avgTemperature = $temperatureAverage;
+       $daily->maxTemperature = $temperatureMax;
+
+       $daily->minAirHumidity = $humidityMin;
+       $daily->avgAirHumidity = $humidityAverage;
+       $daily->maxAirHumidity = $humidityMax;
+
+       $daily->minSoilMoisture = $soilMoistureMin;
+       $daily->avgSoilMoisture = $soilMoistureAverage;
+       $daily->maxSoilMoisture = $soilMoistureMax;
+       $Sensor->daily()->save($daily);
+
+       $checkDaily = Daily::where('sensor_id','=',$SensorPrimaryKey)->count();
+       if($checkDaily==24){
+           $lightDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minLight');
+           $lightDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgLight');
+           $lightDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxLight');
+
+           $temperatureDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minTemperature');
+           $temperatureDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgTemperature');
+           $temperatureDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxTemperature');
+
+           $humidityDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minAirHumidity');
+           $humidityDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgAirHumidity');
+           $humidityDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxAirHumidity');
+
+           $soilMoistureDailyMin = Daily::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisture');
+           $soilMoistureDailyAverage = Daily::where('sensor_id','=',$SensorPrimaryKey)->avg('avgSoilMoisture');
+           $soilMoistureDailyMax = Daily::where('sensor_id','=',$SensorPrimaryKey)->max('maxSoilMoisture');
+
+           $weekly = new Weekly();
+           $weekly->minLight = $lightDailyMin;
+           $weekly->avgLight = $lightDailyAverage;
+           $weekly->maxLight = $lightDailyMax;
+
+           $weekly->minTemperature = $temperatureDailyMin;
+           $weekly->avgTemperature = $temperatureDailyAverage;
+           $weekly->maxTemperature = $temperatureDailyMax;
+
+           $weekly->minAirHumidity = $humidityDailyMin;
+           $weekly->avgAirHumidity = $humidityDailyAverage;
+           $weekly->maxAirHumidity = $humidityDailyMax;
+
+           $weekly->minSoilMoisture = $soilMoistureDailyMin;
+           $weekly->avgSoilMoisture = $soilMoistureDailyAverage;
+           $weekly->maxSoilMoisture = $soilMoistureDailyMax;
+           $Sensor->weekly()->save($weekly);
+           Daily::where('sensor_id','like',$SensorPrimaryKey)->delete();
+
+           $checkWeekly = Weekly::where('sensor_id','=',$SensorPrimaryKey)->count();
+           if($checkWeekly==7){
+               $lightWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minLight');
+               $lightWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgLight');
+               $lightWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxLight');
+
+               $temperatureWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minTemperature');
+               $temperatureWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgTemperature');
+               $temperatureWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxTemperature');
+
+               $humidityWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minAirHumidity');
+               $humidityWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgAirHumidity');
+               $humidityWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxAirHumidity');
+
+               $soilMoistureWeeklyMin = Weekly::where('sensor_id','=',$SensorPrimaryKey)->min('minSoilMoisture');
+               $soilMoistureWeeklyAverage = Weekly::where('sensor_id','=',$SensorPrimaryKey)->avg('avgSoilMoisture');
+               $soilMoistureWeeklyMax = Weekly::where('sensor_id','=',$SensorPrimaryKey)->max('maxSoilMoisture');
+
+               $weeklyHistory = new WeeklyHistory();
+               $weeklyHistory->minLight = $lightWeeklyMin;
+               $weeklyHistory->avgLight = $lightWeeklyAverage;
+               $weeklyHistory->maxLight = $lightWeeklyMax;
+
+               $weeklyHistory->minTemperature = $temperatureWeeklyMin;
+               $weeklyHistory->avgTemperature = $temperatureWeeklyAverage;
+               $weeklyHistory->maxTemperature = $temperatureWeeklyMax;
+
+               $weeklyHistory->minAirHumidity = $humidityWeeklyMin;
+               $weeklyHistory->avgAirHumidity = $humidityWeeklyAverage;
+               $weeklyHistory->maxAirHumidity = $humidityWeeklyMax;
+
+               $weeklyHistory->minSoilMoisture = $soilMoistureWeeklyMin;
+               $weeklyHistory->avgSoilMoisture = $soilMoistureWeeklyAverage;
+               $weeklyHistory->maxSoilMoisture = $soilMoistureWeeklyMax;
+               $Sensor->weeklyHistory()->save($weeklyHistory);
+               Weekly::where('sensor_id','like',$SensorPrimaryKey)->delete();
+           }
+       }
+   }
+
+   $light = new Light();
+   $light->luxValue = $value;
+   $Sensor->light()->save($light);
+});
+
+Route::get('api/humidity/{device_id}/{value}',function($id,$value){
+   $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
+   $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
+   $Sensor = Sensor::find($SensorPrimaryKey);
+   $notificationController = new notificationController();
+   $device = \App\SensingDevice::where("device_id","=",$id)->first();
+   $sensor  = \App\Sensor::where("sensingDevice_id","=",$device->id)->first();
+   $notificationCheck= MinMaxMonitor::where("sensor_id","=",$sensor->id)->first();
+   if($notificationCheck!=null) {
+     if ($notificationCheck->minHumidityPercentage != 0 && $notificationCheck->minHumidityPercentage > $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum humidity <" . $notificationCheck->minHumidityPercentage . " %", $id);
+     }
+     if ($notificationCheck->maxHumidityPercentage != 0 && $notificationCheck->maxHumidityPercentage < $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach maximum humidity >" . $notificationCheck->maxHumidityPercentage . " %", $id);
+     }
+   }
+   $humidity = new Humidity();
+   $humidity->humidityPercentage = $value;
+   $Sensor->humidity()->save($humidity);
+});
+
+Route::get('api/soil/{device_id}/{value}',function($id,$value){
+   $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
+   $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
+   $Sensor = Sensor::find($SensorPrimaryKey);
+   $notificationController = new notificationController();
+   $device = \App\SensingDevice::where("device_id","=",$id)->first();
+   $sensor  = \App\Sensor::where("sensingDevice_id","=",$device->id)->first();
+   $notificationCheck= MinMaxMonitor::where("sensor_id","=",$sensor->id)->first();
+   if($notificationCheck!=null) {
+     if ($notificationCheck->minSoilMoisture != 0 && $notificationCheck->minSoilMoisture > $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum soil moisture <" . $notificationCheck->minSoilMoisture, $id);
+     }
+     if ($notificationCheck->maxSoilMoisture != 0 && $notificationCheck->maxSoilMoisture < $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach maximum soil moisture >" . $notificationCheck->maxSoilMoisture, $id);
+     }
+   }
+   $soilMoisture= new SoilMoisture();
+   $soilMoisture->soilValue = $value;
+   $Sensor->soilMoisture()->save($soilMoisture);
+});
+
+Route::get('api/temp/{device_id}/{value}',function($id,$value){
+   $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
+   $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
+   $Sensor = Sensor::find($SensorPrimaryKey);
+   $notificationController = new notificationController();
+   $device = \App\SensingDevice::where("device_id","=",$id)->first();
+   $sensor  = \App\Sensor::where("sensingDevice_id","=",$device->id)->first();
+   $notificationCheck= MinMaxMonitor::where("sensor_id","=",$sensor->id)->first();
+   if($notificationCheck!=null) {
+     if ($notificationCheck->minCelsius != 0 && $notificationCheck->minCelsius > $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum temperature <" . $notificationCheck->minCelsius . " celsius", $id);
+     }
+     if ($notificationCheck->maxCelsius != 0 && $notificationCheck->maxCelsius < $value) {
+         $notificationController->sentMonitorNotification("Alert!! : " . $id . " reach minimum temperature >" . $notificationCheck->maxCelsius . " celsius", $id);
+     }
+   }
+   $temperature = new Temperature();
+   $temperature->celsiusValue = $value;
+   $Sensor->temperature()->save($temperature);
+});
+
 Route::get('sensingResister/{device_id}/{temperature}/{soilmoisture}/{light}/{humidity}',function($id,$temp,$soil,$lux,$humid){
+
     $DeviceBaseId = DB::table('sensingdevice')->where('device_id', $id)->value('id');
     $SensorPrimaryKey = DB::table('sensor')->where('sensingDevice_id',$DeviceBaseId)->value('id');
     $checkHourly = Light::where('sensor_id','=',$SensorPrimaryKey)->count();
