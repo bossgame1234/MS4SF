@@ -135,6 +135,11 @@ class notificationController extends Controller
         }
     return  response("Sent notification success",200);
     }
+
+    /**
+     * @param $message
+     * @param $user_id
+     */
     public function sentTaskToFarmWorker($message,$user_id){
         $UserToken = User::where('id','=',$user_id)->first()->device_token;
         $status = User::where('id','=',$user_id)->first()->task_status;
