@@ -1,5 +1,16 @@
 <section id="main-content">
-    <section class="wrapper site-min-height">
+  <section class="wrapper" style="padding-bottom: 0px;">
+      <div class="row">
+        <h3 class="col-lg-6"> Photos from the camera </h3>
+      </diV>
+      <div class="row">
+          <iframe src="https://drive.google.com/embeddedfolderview?id=0B2MTa9YtL4yGcmswZ3dyaWpiTzA#grid" width="100%" height="500px" frameborder="0">
+          <div class="embed-responsive embed-responsive-16by9" style="text-align: center;">
+            </iframe>
+          </div>
+      </div>
+    </section>
+    <section class="wrapper site-min-height" style="margin-top: 0px;">
         <h3 ng-show="daily"><i class="fa fa-angle-right"></i> Sensing Device Daily Summary <a href="#/viewWeeklySummary/{{DeviceId}}"><button class="btn btn-default btn-primary">Weekly</button></a></h3>
         <h3 ng-show="weekly"><i class="fa fa-angle-right"></i> Sensing Device Weekly Summary <a href="#/viewDailySummary/{{DeviceId}}"><button class="btn btn-default btn-primary">Daily</button></a></h3>
         <div class="row mt">
@@ -40,6 +51,23 @@
         <div class="col-lg-12" ng-show="lightGraph||humidityGraph||temperatureGraph||soilMoistureGraph">
             <div google-chart chart="chart" style="{{cssStyle}}"></div>
             <!-- explicit close of tag seems to be necessary -->
+        </div>
+        <div class="col-lg-12" style="margin-top: 20px; width: 100%">
+        <a class="btn btn-block btn-warning" id="tap-controller" onclick="switchPress()">
+                OFF
+        </a>
+              <button data-toggle="collapse" data-target="#soil-setting" class="btn btn-block btn-primary">Setting</button>
+
+              <h4><label id="soil-value" class="label label-info"></label></h4>
+
+              <div id="soil-setting" class="collapse">
+                  <div class="input-group">
+                    <input id="soil-danger" type="number" class="form-control">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#soil-setting" onclick="setSoil()">Save</button>
+                    </span>
+                  </div><!-- /input-group -->
+              </div>
         </div>
     </section>
 </section>

@@ -51,6 +51,7 @@
     <script src="js/service/UserService.js"></script>
     <script src="js/service/ActivityService.js"></script>
     <script src="js/service/TaskService.js"></script>
+    <script src="https://cdn.netpie.io/microgear.js"></script>
 </head>
 <body ng-app="ms4sf">
 <section id="container" >
@@ -190,5 +191,65 @@
 <!--time picker-->
 <script src="assets/js/bootstrap-timepicker.js"></script>
 <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
+<script>
+		const APPID 	= "monday";
+		const APPKEY 	= "dCeOVeP5kP28Ouz";
+		const APPSECRET = "Iu75PDIkjJsuj2Z8ndQ7kDbMM";
+		const ALIAS 	= "monday-app";
+		var microgear = Microgear.create({
+			key: APPKEY,
+			secret: APPSECRET,
+			alias : ALIAS
+		});
+
+		var soil_danger = 0;
+
+		$("#soil-value").text(soil_danger);
+
+		function setSoil(){
+			soil_danger = $("#soil-danger").val();
+			$("#soil-value").text($("#soil-danger").val());
+			microgear.chat("tap","ON");
+		}
+
+		function switchPress(){
+      console.log("ENter");
+			if (document.getElementById("tap-controller").className == "btn btn-block btn-danger") {
+              console.log("ENter1");
+				microgear.chat("tap","OFF");
+			}
+			else if (document.getElementById("tap-controller").className == "btn btn-block btn-warning") {
+              console.log("ENter2");
+				microgear.chat("tap","ON");
+			}
+		}
+
+		microgear.on('message',function(topic,msg) {
+              console.log(topic);
+              console.log(msg);
+			if (topic == "/monday/soil_moisture") {
+				if (parseInt(msg) < parseInt(soil_danger)) {
+					microgear.chat("tap","ON");
+				}
+			}
+			if (msg == "ON") {
+				document.getElementById("tap-controller").className = "btn btn-block btn-danger";
+				$("#tap-controller").text('Watering...');
+              console.log("ENter3");
+			}
+			else if (msg == "OFF") {
+				document.getElementById("tap-controller").className = "btn btn-block btn-warning";
+				$("#tap-controller").text('OFF');
+              console.log("ENter4");
+			}
+		});
+
+		microgear.on('connected', function() {
+			microgear.subscribe("/soil_moisture");
+			document.getElementById("tap-controller").className = "btn btn-block btn-warning";
+		});
+
+		microgear.connect(APPID);
+</script>
 </body>
 </html>
