@@ -56,7 +56,7 @@ return [
 			'driver'    => 'mysql',
 			'host'      => '127.0.0.1',
 			'database'  =>  'ms4sf',
-			'username'  => 'camt',
+			'username'  => 'boss',
 			'password'  => 'boss123',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
