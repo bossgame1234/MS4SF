@@ -31,7 +31,7 @@ var app =  angular.module('ms4sf',[
     });
 app.config(['$routeProvider','$authProvider',
     function($routeProvider, $authProvider) {
-        $authProvider.loginUrl = 'MS4SF/public/index.php/api/authenticate';
+        $authProvider.loginUrl = 'index.php/api/authenticate';
             $routeProvider.
                 when('/showFarmList', {
                     templateUrl: 'view/farmList.html',
@@ -166,7 +166,7 @@ app.config(['$routeProvider','$authProvider',
                     controller: 'timeLineTaskController'
                 }).
                 otherwise(
-                      {redirectTo: '/welcome'}
+                      {redirectTo: '/login'}
                 );
     }]);
 app.config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
